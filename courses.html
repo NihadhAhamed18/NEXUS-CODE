@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d1c">
+  <title>NEXUS ACADEMY | Complete Learning System</title>
+  <link rel="stylesheet" href="courses.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script defer src="courses.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="academy.html"><span class="brand-mark">N</span><span>NEXUS <b>ACADEMY</b><small>LEARN • BUILD • INNOVATE</small></span></a>
+    <nav><a href="academy.html">Home</a><a class="active" href="courses.html">Courses</a><a href="practice.html">Practice Lab</a><a href="dashboard.html">Dashboard</a><a href="index.html">Compiler</a></nav>
+    <div class="account-area">
+      <span id="account-status" class="account-status">Not signed in</span>
+      <button id="auth-open" class="btn btn-outline">Student Login</button>
+      <button id="logout-btn" class="btn btn-outline hidden">Logout</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse"></span> STAGE 04 · COMPLETE LEARNING SYSTEM</div>
+      <h1>Turn curiosity into<br><span>real-world code.</span></h1>
+      <p>Learn ten programming languages, complete guided lessons, test your knowledge and keep your progress synced to your student account.</p>
+      <div class="hero-actions"><a class="btn btn-primary" href="#course-area">Explore courses <span>↘</span></a><a class="text-link" href="index.html">Open NEXUS CODE compiler ↗</a></div>
+      <div class="hero-stats"><div><strong>10</strong><small>LANGUAGES</small></div><div><strong>30</strong><small>STARTER LESSONS</small></div><div><strong>100%</strong><small>SELF-PACED</small></div></div>
+    </section>
+
+    <section class="account-banner" id="sync-banner">
+      <div class="sync-icon">☁</div><div><strong id="sync-title">Your learning, in one place</strong><p id="sync-message">Sign in to save your lesson progress and quiz scores to your Supabase account. You can explore lessons without signing in.</p></div>
+      <button class="btn btn-outline" id="banner-auth">Sign in / Create account</button>
+    </section>
+
+    <section id="course-area" class="learning-layout">
+      <aside class="course-sidebar">
+        <div class="section-kicker">LEARNING PATHS</div><h2>Choose a language</h2>
+        <div id="language-list" class="language-list"></div>
+        <div class="sidebar-note"><span>✦</span><div><b>Learning tip</b><p>Follow the lessons in order. Try each example in the compiler before moving on.</p></div></div>
+      </aside>
+      <section class="lesson-panel">
+        <div class="course-heading">
+          <div><div class="section-kicker">YOUR COURSE</div><h2 id="course-title">Python Foundations</h2><p id="course-description">Start with the building blocks of programming.</p></div>
+          <div class="course-progress"><div class="progress-ring"><span id="course-percent">0%</span></div><small>COURSE<br>PROGRESS</small></div>
+        </div>
+        <div class="progress-track"><div id="course-progress-bar"></div></div>
+        <div id="lesson-list" class="lesson-list"></div>
+      </section>
+    </section>
+
+    <section class="lesson-view hidden" id="lesson-view">
+      <button class="back-link" id="back-to-course">← Back to course</button>
+      <div class="lesson-view-head"><div><div class="section-kicker" id="lesson-label">LESSON 01</div><h2 id="lesson-title">Introduction</h2><p id="lesson-subtitle"></p></div><span class="lesson-chip">GUIDED LESSON</span></div>
+      <article id="lesson-content" class="lesson-content"></article>
+      <section class="quiz-card">
+        <div class="section-kicker">QUICK KNOWLEDGE CHECK</div><h3 id="quiz-question">Question</h3>
+        <div id="quiz-options" class="quiz-options"></div>
+        <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+        <div class="quiz-actions"><button id="check-answer" class="btn btn-primary">Check answer</button><button id="complete-lesson" class="btn btn-outline" disabled>Complete lesson</button></div>
+      </section>
+      <div class="lesson-footer"><span id="lesson-xp">+20 XP on completion</span><a href="index.html" class="text-link">Practise in NEXUS CODE ↗</a></div>
+    </section>
+    <footer><span>© 2026 NEXUS ACADEMY</span><span>BUILT TO HELP YOU BUILD</span></footer>
+  </main>
+
+  <div class="modal-backdrop hidden" id="auth-modal">
+    <section class="auth-modal">
+      <button class="modal-close" id="auth-close" aria-label="Close">×</button>
+      <div class="section-kicker">STUDENT ACCOUNT</div><h2 id="auth-title">Welcome back.</h2><p class="muted" id="auth-description">Sign in to sync your learning progress across devices.</p>
+      <form id="auth-form">
+        <label>Email address<input id="auth-email" type="email" placeholder="you@example.com" required autocomplete="email"></label>
+        <label>Password<input id="auth-password" type="password" placeholder="At least 6 characters" required minlength="6" autocomplete="current-password"></label>
+        <label id="name-field" class="hidden">Display name<input id="auth-name" type="text" placeholder="Your name" autocomplete="name"></label>
+        <button class="btn btn-primary full" id="auth-submit" type="submit">Sign in</button>
+      </form>
+      <p id="auth-feedback" class="auth-feedback" aria-live="polite"></p>
+      <button id="auth-toggle" class="switch-auth">New to NEXUS? Create an account</button>
+      <small class="privacy-note">Your account is managed securely by Supabase Authentication.</small>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>

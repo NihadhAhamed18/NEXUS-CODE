@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1b"><title>NEXUS ACADEMY | Practice Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="practice.css"></head>
+<body><div class="ambient one"></div><div class="ambient two"></div>
+<header class="topbar"><a class="brand" href="academy.html"><b>&lt;/&gt;</b>NEXUS <span>ACADEMY</span></a>
+<nav><a href="academy.html">Academy home</a><a class="active" href="#practice">Practice lab</a><a href="index.html">Open compiler ↗</a><a href="dashboard.html">Student Dashboard</a></nav>
+<button id="themeToggle" class="theme">☼</button></header>
+<main id="practice">
+<section class="hero"><div class="eyebrow">● LEARN BY DOING · STAGE 02</div><h1>Enter the <span>Practice Lab.</span></h1>
+<p>Test your knowledge, solve coding problems and level up one challenge at a time.</p>
+<div class="stats"><div><b id="heroCompleted">0</b><small>Challenges solved</small></div><div><b id="heroScore">0%</b><small>Quiz accuracy</small></div><div><b id="heroStreak">0</b><small>Perfect quizzes</small></div></div>
+<div class="code-float"><span>01</span> <i>def</i> keep_learning():<br>&nbsp;&nbsp;while not expert:<br>&nbsp;&nbsp;&nbsp;&nbsp;practice()<br>&nbsp;&nbsp;&nbsp;&nbsp;level_up()</div></section>
+<section class="heading"><div><label>KNOWLEDGE CHECK</label><h2>Quick-fire quizzes<span>.</span></h2><p>Choose a topic and see how much you know.</p></div><aside>⚡ INSTANT FEEDBACK</aside></section>
+<section class="quiz-layout"><div class="topics" id="quizTopics">
+<button class="topic active" data-topic="python">🐍 <span><b>Python basics</b><small>5 questions</small></span>›</button>
+<button class="topic" data-topic="web">🌐 <span><b>Web development</b><small>5 questions</small></span>›</button>
+<button class="topic" data-topic="cpp">⚙️ <span><b>C++ fundamentals</b><small>5 questions</small></span>›</button></div>
+<div class="quiz-panel"><div class="quiz-meta"><span id="quizTopicLabel">PYTHON BASICS</span><span id="questionCounter">QUESTION 01 / 05</span></div>
+<div class="progress"><i id="quizProgress"></i></div><h3 id="questionText">Loading...</h3><div class="answers" id="answerList"></div>
+<div id="quizFeedback" class="feedback" aria-live="polite"></div><div class="quiz-actions"><button class="plain" id="quitQuiz">Restart quiz</button><button class="primary" id="nextQuestion" disabled>Next question →</button></div></div></section>
+<section class="heading challenge-heading"><div><label>BUILD YOUR LOGIC</label><h2>Coding challenges<span>.</span></h2><p>Read the task, write your solution and check your answer.</p></div><aside>⌘ THINK · CODE · SOLVE</aside></section>
+<div class="filters" id="challengeFilters"><button class="filter active" data-level="all">All levels</button><button class="filter" data-level="Beginner">Beginner</button><button class="filter" data-level="Intermediate">Intermediate</button></div>
+<section class="challenge-grid" id="challengeGrid"></section>
+<section class="workspace" id="challengeWorkspace"><div class="workspace-head"><div><label>CHALLENGE WORKSPACE</label><h2 id="workspaceTitle">Select a challenge</h2></div><button id="closeWorkspace" class="close">×</button></div>
+<div class="workspace-columns"><div><span id="workspaceLevel" class="level">BEGINNER</span><h3>Problem</h3><p id="workspaceDescription">Choose a challenge above to get started.</p>
+<div class="hint"><b>💡 Hint</b><p id="workspaceHint">A helpful hint will appear here.</p></div><a href="index.html" target="_blank" class="compiler-link">Open NEXUS CODE compiler ↗</a></div>
+<div class="editor"><div class="editor-head">● solution.py <span>PYTHON</span></div><textarea id="solutionEditor" spellcheck="false" placeholder="# Write your Python solution here..."></textarea>
+<div class="editor-actions"><button class="secondary" id="resetSolution">Reset code</button><button class="primary" id="checkSolution">Check solution ✓</button></div><div id="testResult" class="result" aria-live="polite">Your test results will appear here.</div></div></div></section>
+<section class="banner"><b>✦</b><div><h3>Small steps. Big progress.</h3><p>Keep practising. Every problem you solve makes you a better programmer.</p></div><a href="academy.html">Back to learning →</a></section>
+</main><footer>© 2026 NEXUS ACADEMY <span>BUILT FOR THE NEXT GENERATION OF DEVELOPERS</span></footer>
+<script src="practice.js"></script></body></html>

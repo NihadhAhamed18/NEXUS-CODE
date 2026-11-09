@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050816">
+<title>NEXUS CODE | Online IDE</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+</head>
+
+<body>
+
+<div class="ambient ambient-one"></div>
+<div class="ambient ambient-two"></div>
+<div class="grid-bg"></div>
+
+<header class="navbar">
+    <a href="#" class="brand">
+        <span class="logo">&lt;/&gt;</span>
+        <span class="brand-name">NEXUS<span>CODE</span>
+        <small>THE FUTURE OF CODING</small></span>
+    </a>
+
+    <a href="academy.html" class="academy-link">
+    <span>🎓</span> NEXUS ACADEMY
+    </a>
+
+    <div class="nav-right">
+        <span class="online"><i></i> SYSTEM ONLINE</span>
+        <button id="themeBtn" class="theme-btn">☼</button>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <div class="hero-text">
+            <div class="tagline">
+                <span class="tag-line"></span>
+                NEXT GENERATION CODING ENVIRONMENT
+            </div>
+
+            <h1>Code Beyond<br>
+                <span>Limits.</span>
+            </h1>
+
+            <p>Write, compile and execute your programs in one powerful workspace.</p>
+        </div>
+
+        <div class="hero-orb">
+            <div class="orb-ring ring-one"></div>
+            <div class="orb-ring ring-two"></div>
+            <div class="orb-core">&lt;/&gt;</div>
+        </div>
+    </section>
+
+    <section class="editor-toolbar">
+
+        <div class="toolbar-left">
+            <div class="language-label">LANGUAGE</div>
+
+            <select id="language">
+                <option value="71">Python 3</option>
+                <option value="54">C++</option>
+                <option value="50">C</option>
+                <option value="62">Java</option>
+                <option value="63">JavaScript</option>
+                <option value="51">C#</option>
+                <option value="68">PHP</option>
+                <option value="72">Ruby</option>
+                <option value="60">Go</option>
+                <option value="73">Rust</option>
+            </select>
+
+            <span class="filename" id="fileName">main.py</span>
+        </div>
+
+        <div class="toolbar-right">
+            <button id="resetBtn" class="tool-btn">↺ Reset</button>
+            <button id="downloadBtn" class="tool-btn">↓ Download</button>
+            <button id="runBtn" class="run-btn">
+                <span>▶</span> RUN CODE
+            </button>
+        </div>
+
+    </section>
+
+    <section class="workspace">
+
+        <div class="editor-panel glass">
+
+            <div class="panel-top">
+                <div class="panel-heading">
+                    <span class="traffic red"></span>
+                    <span class="traffic yellow"></span>
+                    <span class="traffic green"></span>
+                    <b>CODE EDITOR</b>
+                </div>
+
+                <span class="panel-info" id="editorMeta">Python 3 · Ready</span>
+            </div>
+
+            <div id="editor"></div>
+
+            <div class="editor-footer">
+                <span id="editorStatus">● Ready</span>
+                <span id="cursorPosition">Ln 1, Col 1</span>
+                <span>UTF-8</span>
+            </div>
+
+        </div>
+
+        <div class="terminal-panel glass">
+
+            <div class="terminal-header">
+                <div class="terminal-title">
+                    <span class="terminal-symbol">⌁</span>
+                    <b>LIVE TERMINAL</b>
+                </div>
+
+                <div class="terminal-status">
+                    <i></i> READY
+                </div>
+            </div>
+
+            <div class="terminal-tabs">
+                <span class="active-tab">CONSOLE</span>
+                <span>STDIN / STDOUT</span>
+                <button id="clearOutput">CLEAR</button>
+            </div>
+
+            <div class="terminal-body">
+
+                <div class="terminal-intro">
+                    <span class="prompt-symbol">➜</span>
+                    <span>NEXUS CODE TERMINAL</span>
+                </div>
+
+                <div class="terminal-description">
+                    Enter your program input below before execution.
+                </div>
+
+                <div class="terminal-input-area">
+                    <label for="stdin">PROGRAM INPUT <span>STDIN</span></label>
+                    <textarea id="stdin"
+                        placeholder="Enter input here...&#10;Example:&#10;Ahamed&#10;25"
+                        spellcheck="false"></textarea>
+                </div>
+
+                <div class="output-heading">
+                    <span>PROGRAM OUTPUT</span>
+                    <span id="runStatus">WAITING</span>
+                </div>
+
+                <pre id="output"><span class="muted">Your program output will appear here...</span></pre>
+
+            </div>
+
+            <div class="terminal-footer">
+                <span id="execTime">TIME: —</span>
+                <span id="memoryUsed">MEMORY: —</span>
+                <span class="terminal-powered">POWERED BY JUDGE0</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <span>© 2026 NEXUS CODE</span>
+        <span>DESIGNED FOR DEVELOPERS <b>✦</b></span>
+    </footer>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

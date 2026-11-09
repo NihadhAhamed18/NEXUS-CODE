@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1b"><title>NEXUS ACADEMY | Student Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+<div class="glow glow-a"></div><div class="glow glow-b"></div>
+<header class="topbar">
+  <a class="brand" href="academy.html"><b>&lt;/&gt;</b>NEXUS <span>ACADEMY</span></a>
+  <nav><a href="academy.html">Academy</a><a href="practice.html">Practice Lab</a><a class="active" href="dashboard.html">Dashboard</a><a href="index.html">Compiler ↗</a></nav>
+  <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">☼</button>
+</header>
+<main>
+  <section class="welcome">
+    <div><div class="eyebrow"><i></i> YOUR LEARNING OVERVIEW</div><h1>Welcome to your <span>dashboard.</span></h1>
+    <p>Every line of code brings you closer to your next breakthrough.</p></div>
+    <div class="welcome-chip"><span>✦</span><div><b id="rankLabel">Rookie Coder</b><small id="rankSub">Your journey starts here</small></div></div>
+  </section>
+
+  <section class="stats-grid">
+    <article class="stat-card"><div class="stat-icon cyan">⌘</div><small>Challenges solved</small><strong id="solvedCount">0</strong><span>Keep building your skills</span></article>
+    <article class="stat-card"><div class="stat-icon purple">◎</div><small>Quiz accuracy</small><strong id="accuracy">0%</strong><span id="quizAttempts">0 answers submitted</span></article>
+    <article class="stat-card"><div class="stat-icon green">ϟ</div><small>Current streak</small><strong><span id="currentStreak">0</span> <em>days</em></strong><span id="bestStreak">Best: 0 days</span></article>
+    <article class="stat-card"><div class="stat-icon orange">✦</div><small>XP earned</small><strong id="xpTotal">0</strong><span>Experience points</span></article>
+  </section>
+
+  <section class="main-grid">
+    <article class="panel progress-panel">
+      <div class="panel-heading"><div><label>YOUR JOURNEY</label><h2>Learning progress</h2></div><span class="live-tag">● LIVE</span></div>
+      <div class="progress-overview"><div class="progress-ring" id="progressRing"><div><b id="progressPercent">0%</b><small>COMPLETE</small></div></div>
+        <div class="progress-copy"><h3 id="progressTitle">A great journey begins with one step.</h3><p id="progressDescription">Complete lessons and solve challenges to build your learning record.</p><a href="practice.html">Continue practising →</a></div></div>
+      <div class="progress-track"><div id="progressFill"></div></div>
+      <div class="progress-foot"><span id="completedText">0 of 6 challenges completed</span><span id="remainingText">6 remaining</span></div>
+    </article>
+    <article class="panel streak-panel">
+      <div class="panel-heading"><div><label>CONSISTENCY WINS</label><h2>Activity calendar</h2></div><span class="calendar-icon">▦</span></div>
+      <p class="muted">Your learning activity over the last 35 days.</p>
+      <div class="calendar" id="activityCalendar"></div>
+      <div class="calendar-legend"><span>Less</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>More</span></div>
+      <div class="streak-note" id="streakMessage">Start a quiz or solve a challenge today to begin your streak.</div>
+    </article>
+  </section>
+
+  <section class="panel achievements-panel">
+    <div class="panel-heading"><div><label>UNLOCK YOUR POTENTIAL</label><h2>Achievements</h2><p class="muted">Earn badges as you make progress.</p></div><span class="achievement-count" id="badgeCount">0 / 6 unlocked</span></div>
+    <div class="badge-grid" id="badgeGrid"></div>
+  </section>
+
+  <section class="panel certificate-panel">
+    <div class="certificate-art"><div class="cert-seal">✦</div><div class="cert-lines"><span></span><span></span><span></span></div></div>
+    <div class="certificate-copy"><label>YOUR MILESTONE</label><h2>Your progress deserves recognition.</h2><p>Generate a personal learning achievement certificate when you reach the challenge milestone. Add your name and print or save it as a PDF.</p>
+      <div class="certificate-actions"><input id="studentName" type="text" maxlength="50" placeholder="Enter your name for the certificate"><button class="primary-btn" id="certificateBtn">Generate certificate ↗</button></div>
+      <small class="certificate-note" id="certificateNote">Complete at least 3 coding challenges to unlock your certificate.</small>
+    </div>
+  </section>
+  <section class="quick-links"><a href="practice.html"><span>⚡</span><b>Practice Lab</b><small>Take quizzes and solve challenges</small><i>↗</i></a><a href="academy.html"><span>🎓</span><b>Course library</b><small>Continue your programming lessons</small><i>↗</i></a><a href="index.html"><span>⌨</span><b>Online compiler</b><small>Write and run your code</small><i>↗</i></a></section>
+</main>
+<footer>© 2026 NEXUS ACADEMY <span>LEARN · BUILD · ACHIEVE</span></footer>
+<script src="dashboard.js"></script>
+</body></html>

@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS ACADEMY | Learn Programming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="academy.css">
+</head>
+<body>
+
+<div class="background-grid"></div>
+<div class="glow glow-one"></div>
+<div class="glow glow-two"></div>
+
+<header class="navbar">
+    <a class="brand" href="index.html">
+        <span class="logo">&lt;/&gt;</span>
+        <span>NEXUS <b>ACADEMY</b>
+            <small>LEARN. PRACTICE. MASTER.</small>
+        </span>
+    </a>
+
+    <nav>
+        <a href="index.html">Compiler</a>
+        <a href="#courses">Courses</a>
+        <a href="#resources">Resources</a>
+        <a href="dashboard.html">Student Dashboard</a>
+    </nav>
+
+    <button id="themeBtn" class="theme-btn">☼</button>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <div class="eyebrow">YOUR PROGRAMMING JOURNEY STARTS HERE</div>
+        <h1>Learn to Code.<br>
+            <span>Build Your Future.</span>
+        </h1>
+        <p>
+            Start from absolute zero. Learn programming step by step,
+            practise your skills and become a confident developer.
+        </p>
+
+        <a href="#courses" class="primary-btn">
+            Explore Free Courses →
+        </a>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <strong>10+</strong>
+            <span>Programming Languages</span>
+        </div>
+        <div class="stat">
+            <strong>100%</strong>
+            <span>Free Learning</span>
+        </div>
+        <div class="stat">
+            <strong>5</strong>
+            <span>Learning Levels</span>
+        </div>
+    </section>
+
+    <section id="courses" class="section">
+
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">LEARNING LIBRARY</span>
+                <h2>Explore Programming Courses</h2>
+                <p>Choose a language and start learning from the basics.</p>
+            </div>
+        </div>
+
+        <div id="courseGrid" class="course-grid"></div>
+
+    </section>
+
+    <section id="lessonArea" class="lesson-section hidden">
+
+        <div class="lesson-heading">
+            <div>
+                <span class="eyebrow">YOUR LEARNING CLASSROOM</span>
+                <h2 id="courseTitle">Python Programming</h2>
+                <p id="courseDescription"></p>
+            </div>
+
+            <button id="backBtn" class="secondary-btn">
+                ← All Courses
+            </button>
+        </div>
+
+        <div class="learning-layout">
+
+            <aside class="lesson-sidebar">
+                <h3>COURSE CONTENT</h3>
+
+                <div class="progress-info">
+                    <span>Course progress</span>
+                    <strong id="progressText">0%</strong>
+                </div>
+
+                <div class="progress-track">
+                    <div id="progressBar"></div>
+                </div>
+
+                <div id="lessonList"></div>
+            </aside>
+
+            <article class="lesson-content">
+
+                <div class="lesson-meta">
+                    <span id="lessonLevel">BEGINNER</span>
+                    <span id="lessonNumber">LESSON 01</span>
+                </div>
+
+                <h2 id="lessonTitle"></h2>
+
+                <div id="lessonBody"></div>
+
+                <div class="lesson-example">
+                    <div class="example-heading">
+                        <span>CODE EXAMPLE</span>
+                        <button id="copyCode">COPY CODE</button>
+                    </div>
+
+                    <pre><code id="lessonCode"></code></pre>
+
+                    <a href="index.html" class="practice-btn">
+                        Open NEXUS COMPILER ↗
+                    </a>
+                </div>
+
+                <div class="lesson-navigation">
+                    <button id="previousBtn" class="secondary-btn">
+                        ← Previous
+                    </button>
+
+                    <button id="completeBtn" class="primary-btn">
+                        Mark as Completed →
+                    </button>
+                </div>
+
+            </article>
+
+        </div>
+    </section>
+
+    <section id="resources" class="section resources">
+
+        <span class="eyebrow">EXPAND YOUR KNOWLEDGE</span>
+        <h2>Free External Learning Resources</h2>
+        <p>Learn from established educational platforms.</p>
+
+        <div class="resource-grid">
+
+            <a href="https://cs50.harvard.edu/x/"
+               target="_blank" rel="noopener">
+                <span class="resource-icon">🎓</span>
+                <h3>Harvard CS50x</h3>
+                <p>Computer science, C, Python and algorithms.</p>
+                <b>Explore course ↗</b>
+            </a>
+
+            <a href="https://cs50.harvard.edu/python/"
+               target="_blank" rel="noopener">
+                <span class="resource-icon">🐍</span>
+                <h3>Harvard CS50P</h3>
+                <p>Complete Python programming course.</p>
+                <b>Explore course ↗</b>
+            </a>
+
+            <a href="https://www.freecodecamp.org/learn/"
+               target="_blank" rel="noopener">
+                <span class="resource-icon">💻</span>
+                <h3>freeCodeCamp</h3>
+                <p>Interactive lessons and free certifications.</p>
+                <b>Explore course ↗</b>
+            </a>
+
+            <a href="https://www.w3schools.com/"
+               target="_blank" rel="noopener">
+                <span class="resource-icon">📚</span>
+                <h3>W3Schools</h3>
+                <p>Beginner-friendly programming tutorials.</p>
+                <b>Explore tutorials ↗</b>
+            </a>
+
+        </div>
+    </section>
+
+    <footer>
+        <span>© 2026 NEXUS ACADEMY</span>
+        <span>LEARN SOMETHING NEW EVERY DAY ✦</span>
+    </footer>
+
+</main>
+
+<script src="academy.js"></script>
+</body>
+</html>
