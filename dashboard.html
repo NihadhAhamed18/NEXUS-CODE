@@ -28,6 +28,29 @@
     <article class="stat-card"><div class="stat-icon orange">✦</div><small>XP earned</small><strong id="xpTotal">0</strong><span>Experience points</span></article>
   </section>
 
+  <section class="panel nexus-cloud-panel" id="cloudPanel" aria-live="polite">
+    <div class="cloud-mark">☁</div>
+    <div class="cloud-copy">
+      <b id="cloudTitle">Checking your student account…</b>
+      <p id="cloudMessage">Your Stage 4 course progress will appear here when you are signed in.</p>
+    </div>
+    <span id="cloudState" class="cloud-state">CONNECTING</span>
+  </section>
+
+  <section class="panel nexus-course-panel">
+    <div class="panel-heading">
+      <div><label>STAGE 4 · COMPLETE LEARNING SYSTEM</label><h2>Programming course progress</h2>
+      <p class="muted">Your completed lessons across all ten languages.</p></div>
+      <a href="courses.html">Open courses →</a>
+    </div>
+    <div class="course-summary">
+      <div class="course-total"><strong id="courseLessonCount">0 / 30</strong><small>LESSONS COMPLETED</small></div>
+      <div class="course-bar"><div id="courseProgressFill"></div></div>
+      <strong id="courseProgressPercent">0%</strong>
+    </div>
+    <div id="courseLanguageGrid" class="course-language-grid"></div>
+  </section>
+
   <section class="main-grid">
     <article class="panel progress-panel">
       <div class="panel-heading"><div><label>YOUR JOURNEY</label><h2>Learning progress</h2></div><span class="live-tag">● LIVE</span></div>
@@ -57,8 +80,31 @@
       <small class="certificate-note" id="certificateNote">Complete at least 3 coding challenges to unlock your certificate.</small>
     </div>
   </section>
-  <section class="quick-links"><a href="practice.html"><span>⚡</span><b>Practice Lab</b><small>Take quizzes and solve challenges</small><i>↗</i></a><a href="academy.html"><span>🎓</span><b>Course library</b><small>Continue your programming lessons</small><i>↗</i></a><a href="index.html"><span>⌨</span><b>Online compiler</b><small>Write and run your code</small><i>↗</i></a></section>
+  <section class="quick-links"><a href="practice.html"><span>⚡</span><b>Practice Lab</b><small>Take quizzes and solve challenges</small><i>↗</i></a><a href="courses.html"><span>🎓</span><b>Course library</b><small>Continue your programming lessons</small><i>↗</i></a><a href="index.html"><span>⌨</span><b>Online compiler</b><small>Write and run your code</small><i>↗</i></a></section>
 </main>
 <footer>© 2026 NEXUS ACADEMY <span>LEARN · BUILD · ACHIEVE</span></footer>
+<style>
+.nexus-cloud-panel{display:flex;align-items:center;gap:14px;margin:22px 0;padding:18px 20px}
+.cloud-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:rgba(48,205,232,.12);color:#54dff1;font-size:22px;flex:none}
+.cloud-copy{min-width:0;flex:1}.cloud-copy b{display:block}.cloud-copy p{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.cloud-state{font:10px "DM Mono",monospace;letter-spacing:1px;color:#55dcb7}
+.cloud-state.offline{color:#f4bd62}.cloud-state.error{color:#ff8585}
+.nexus-course-panel{margin:22px 0;padding:22px}
+.nexus-course-panel .panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.nexus-course-panel .panel-heading>a{color:var(--cyan);font-size:12px;text-decoration:none;white-space:nowrap}
+.course-summary{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;margin:18px 0}
+.course-total strong{display:block;font-size:22px}.course-total small{display:block;color:var(--muted);font:9px "DM Mono",monospace;letter-spacing:1px;margin-top:3px}
+.course-bar{height:9px;border-radius:20px;background:#26334d;overflow:hidden}.course-bar>div{height:100%;width:0;background:linear-gradient(90deg,#38d9ed,#8c72ff);border-radius:20px;transition:width .5s}
+#courseProgressPercent{font:12px "DM Mono",monospace;color:var(--cyan)}
+.course-language-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.course-language{padding:12px;border:1px solid var(--border,rgba(130,160,210,.16));border-radius:12px;background:rgba(70,110,170,.07);min-width:0}
+.course-language b{display:block;font-size:12px}.course-language small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
+.course-language .mini-track{height:5px;background:#26334d;border-radius:10px;margin-top:9px;overflow:hidden}
+.course-language .mini-track span{display:block;height:100%;background:linear-gradient(90deg,#38d9ed,#8c72ff)}
+@media(max-width:800px){.course-language-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.nexus-cloud-panel{align-items:flex-start;flex-wrap:wrap}.cloud-state{margin-left:56px}.course-summary{grid-template-columns:1fr auto}.course-bar{grid-column:1/-1;grid-row:2}.course-language-grid{grid-template-columns:1fr 1fr}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script src="dashboard.js"></script>
 </body></html>
