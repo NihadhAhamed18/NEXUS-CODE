@@ -1,0 +1,175 @@
+/* NEXUS ACADEMY — OBISIDIAN QUANTUM MASTER OVERRIDE
+   Loaded last on every page to ensure the new theme is visible. */
+:root {
+ --nx-bg:#030712; --nx-panel:rgba(9,22,43,.92); --nx-line:rgba(72,190,235,.26);
+ --nx-cyan:#39e7ff; --nx-violet:#8b78ff; --nx-text:#e8f5ff; --nx-muted:#91a9c5;
+}
+html { scroll-behavior:smooth; }
+body:not(.light) {
+ color:var(--nx-text)!important;
+ background:
+  radial-gradient(ellipse at 12% 8%,rgba(0,170,255,.18),transparent 31%),
+  radial-gradient(ellipse at 88% 17%,rgba(128,70,255,.17),transparent 32%),
+  radial-gradient(ellipse at 52% 100%,rgba(0,218,208,.08),transparent 38%),
+  linear-gradient(145deg,#020611 0%,#07152a 52%,#030916 100%) fixed!important;
+}
+body:not(.light) .navbar, body:not(.light) .topbar {
+ background:rgba(2,8,20,.91)!important;
+ border-bottom:1px solid rgba(57,231,255,.28)!important;
+ box-shadow:0 12px 45px rgba(0,0,0,.42),0 1px rgba(255,255,255,.05) inset!important;
+ backdrop-filter:blur(24px) saturate(150%)!important;
+}
+body:not(.light) .course-card, body:not(.light) .panel, body:not(.light) .glass,
+body:not(.light) .stat-card, body:not(.light) .challenge-card, body:not(.light) .quiz-card,
+body:not(.light) .lesson-sidebar, body:not(.light) .lesson-panel, body:not(.light) .lesson-view,
+body:not(.light) .editor-panel, body:not(.light) .terminal-panel,
+body:not(.light) .achievements-panel, body:not(.light) .streak-panel,
+body:not(.light) .certificate-panel, body:not(.light) .badge-card,
+body:not(.light) .resource-grid>a, body:not(.light) .stat {
+ background:linear-gradient(145deg,rgba(13,31,57,.97),rgba(5,14,30,.96))!important;
+ border:1px solid rgba(73,185,232,.25)!important;
+ box-shadow:0 22px 65px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.055)!important;
+ backdrop-filter:blur(18px)!important;
+}
+body:not(.light) .course-card:hover, body:not(.light) .challenge-card:hover,
+body:not(.light) .stat-card:hover {
+ transform:translateY(-6px)!important;border-color:rgba(57,231,255,.65)!important;
+ box-shadow:0 25px 70px rgba(0,0,0,.4),0 0 32px rgba(57,231,255,.13)!important;
+}
+body:not(.light) .hero {
+ position:relative;isolation:isolate;
+}
+body:not(.light) .hero:before {
+ content:"";position:absolute;inset:-28px -24px;z-index:-1;border-radius:28px;
+ border:1px solid rgba(57,231,255,.22);
+ background:linear-gradient(120deg,rgba(13,86,140,.28),rgba(49,31,111,.22),rgba(0,128,144,.12));
+ box-shadow:0 25px 85px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.06);
+ pointer-events:none;
+}
+body:not(.light) .primary-btn, body:not(.light) .btn-primary,
+body:not(.light) .primary, body:not(.light) .run-btn, body:not(.light) .practice-btn {
+ color:#03101c!important;background:linear-gradient(105deg,#39e7ff,#529eff 55%,#9b7cff)!important;
+ border:1px solid rgba(205,250,255,.5)!important;
+ box-shadow:0 10px 30px rgba(40,166,255,.28),inset 0 1px rgba(255,255,255,.65)!important;
+}
+body:not(.light) .lesson-item.active, body:not(.light) .lesson-row.active,
+body:not(.light) .language-btn.active, body:not(.light) .quiz-option.selected {
+ border-color:rgba(57,231,255,.75)!important;
+ background:linear-gradient(100deg,rgba(20,145,190,.25),rgba(112,77,215,.2))!important;
+ box-shadow:inset 3px 0 #39e7ff,0 8px 24px rgba(0,0,0,.18)!important;
+}
+body:not(.light) .progress-track, body:not(.light) .progress {background:rgba(130,170,210,.17)!important}
+body:not(.light) .progress-track>*, body:not(.light) .progress>* {
+ background:linear-gradient(90deg,#39e7ff,#4b9eff 55%,#9b7cff)!important;
+ box-shadow:0 0 15px rgba(57,231,255,.4)!important;
+}
+body:not(.light) input, body:not(.light) select, body:not(.light) textarea {
+ background:rgba(3,12,26,.9)!important;border-color:rgba(73,185,232,.28)!important;color:#e8f5ff!important;
+}
+body:not(.light) .eyebrow, body:not(.light) .tagline, body:not(.light) .section-kicker {color:#64eaff!important}
+body.light {
+ background:radial-gradient(ellipse at 12% 8%,rgba(62,177,231,.18),transparent 32%),
+ radial-gradient(ellipse at 88% 18%,rgba(151,121,255,.13),transparent 30%),
+ linear-gradient(145deg,#f7fbff,#eaf2fc 55%,#f5f4ff) fixed!important;
+}
+body.light .navbar,body.light .topbar {background:rgba(246,250,255,.94)!important}
+body.light .course-card,body.light .panel,body.light .glass,body.light .stat-card,
+body.light .challenge-card,body.light .quiz-card,body.light .lesson-sidebar,
+body.light .lesson-panel,body.light .lesson-view,body.light .editor-panel,
+body.light .terminal-panel,body.light .achievements-panel,body.light .streak-panel,
+body.light .certificate-panel,body.light .badge-card,body.light .resource-grid>a,body.light .stat {
+ background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(235,244,255,.96))!important;
+ border:1px solid rgba(76,126,173,.2)!important;
+ box-shadow:0 18px 48px rgba(46,88,132,.11),inset 0 1px #fff!important;
+}
+@media(max-width:760px){body:not(.light) .hero:before{inset:-15px -10px}}
+@media(prefers-reduced-motion:no-preference){
+ body:not(.light):after {
+  content:"";position:fixed;inset:-100% 0 auto;height:45%;z-index:0;pointer-events:none;
+  background:linear-gradient(transparent,rgba(65,220,255,.035),transparent);
+  animation:nxMasterScan 12s linear infinite;
+ }
+ @keyframes nxMasterScan {to{transform:translateY(450vh)}}
+}
+
+/* NEXUS responsive navigation refinement — desktop, tablet and mobile */
+.topbar, .navbar {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:clamp(12px,2vw,28px); min-width:0;
+}
+.topbar nav, .navbar nav {
+  display:flex; align-items:center; justify-content:center;
+  flex:1 1 auto; min-width:0; gap:clamp(10px,1.55vw,24px);
+  overflow:visible;
+}
+.topbar nav a, .navbar nav a {
+  display:inline-flex; align-items:center; justify-content:center;
+  white-space:nowrap; flex:0 0 auto; padding:10px 2px;
+  border-radius:9px; transition:color .2s ease, background .2s ease;
+}
+.topbar nav a:hover, .navbar nav a:hover,
+.topbar nav a.active, .navbar nav a.active {
+  color:var(--nx-cyan,#39e7ff)!important;
+}
+.account-area, .account-menu { flex:0 0 auto; min-width:0; }
+
+/* Keep course/language selectors visible instead of squeezing them */
+.language-list, .language-tabs, .course-tabs, .filter-tabs, .tab-list {
+  min-width:0; max-width:100%;
+}
+.language-tabs, .course-tabs, .filter-tabs, .tab-list {
+  display:flex; flex-wrap:wrap; align-items:center; gap:9px;
+}
+.language-tabs button, .course-tabs button, .filter-tabs button, .tab-list button {
+  flex:0 0 auto; white-space:nowrap;
+}
+
+@media (max-width: 900px) {
+  .topbar, .navbar { padding-left:20px!important; padding-right:20px!important; }
+  .topbar nav, .navbar nav { gap:clamp(9px,1.5vw,16px); }
+  .topbar nav a, .navbar nav a { font-size:11px; }
+}
+@media (max-width: 720px) {
+  .topbar, .navbar {
+    min-height:0!important; height:auto!important; padding:12px 15px 9px!important;
+    display:grid!important; grid-template-columns:minmax(0,1fr) auto;
+    align-items:center; column-gap:10px; row-gap:9px;
+  }
+  .brand { min-width:0; }
+  .brand small { letter-spacing:1.4px; }
+  .account-area, .account-menu { justify-self:end; max-width:46vw; }
+  .topbar nav, .navbar nav {
+    grid-column:1 / -1; grid-row:2; width:100%; min-width:0;
+    display:flex!important; flex-wrap:nowrap!important; justify-content:flex-start!important;
+    gap:8px!important; overflow-x:auto!important; overflow-y:hidden!important;
+    padding:5px 1px 8px!important; margin:0!important;
+    -webkit-overflow-scrolling:touch; scrollbar-width:thin;
+    scrollbar-color:rgba(57,231,255,.45) transparent;
+  }
+  .topbar nav::-webkit-scrollbar, .navbar nav::-webkit-scrollbar { height:3px; }
+  .topbar nav::-webkit-scrollbar-thumb, .navbar nav::-webkit-scrollbar-thumb {
+    background:rgba(57,231,255,.4); border-radius:8px;
+  }
+  .topbar nav a, .navbar nav a {
+    flex:0 0 auto!important; padding:9px 12px!important;
+    border:1px solid rgba(100,170,220,.16); border-radius:999px;
+    background:rgba(100,170,220,.055); font-size:11px!important;
+  }
+  .topbar nav a.active, .navbar nav a.active {
+    border-color:rgba(57,231,255,.42);
+    background:rgba(57,231,255,.10);
+  }
+  .language-list { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
+  .language-tabs, .course-tabs, .filter-tabs, .tab-list {
+    flex-wrap:nowrap!important; overflow-x:auto!important; overflow-y:hidden;
+    padding:4px 1px 9px; -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin; max-width:100%;
+  }
+}
+@media (max-width: 390px) {
+  .topbar, .navbar { padding-left:11px!important; padding-right:11px!important; }
+  .brand { gap:8px; font-size:13px; }
+  .brand-mark { width:34px; height:34px; }
+  .account-area, .account-menu { max-width:43vw; }
+  .language-list { grid-template-columns:1fr!important; }
+}

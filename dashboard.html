@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="nexus-ui.css">
+<link rel="stylesheet" href="nexus-theme.css?v=20261110-premium-refresh">
 </head>
 <body>
 <div class="glow glow-a"></div><div class="glow glow-b"></div>
@@ -74,11 +75,30 @@
     <div class="badge-grid" id="badgeGrid"></div>
   </section>
 
-  <section class="panel certificate-panel">
-    <div class="certificate-art"><div class="cert-seal">✦</div><div class="cert-lines"><span></span><span></span><span></span></div></div>
-    <div class="certificate-copy"><label>YOUR MILESTONE</label><h2>Your progress deserves recognition.</h2><p>Generate a personal learning achievement certificate when you reach the challenge milestone. Add your name and print or save it as a PDF.</p>
-      <div class="certificate-actions"><input id="studentName" type="text" maxlength="50" placeholder="Enter your name for the certificate"><button class="primary-btn" id="certificateBtn">Generate certificate ↗</button></div>
-      <small class="certificate-note" id="certificateNote">Complete at least 3 coding challenges to unlock your certificate.</small>
+  <section class="panel certificate-panel nexus-cert-hub">
+    <div class="certificate-copy nexus-cert-heading">
+      <label>YOUR ACHIEVEMENTS · CERTIFICATE CENTRE</label>
+      <h2>Turn your progress into recognition.</h2>
+      <p>Earn a beautifully designed NEXUS ACADEMY certificate when you complete a learning path or the full academy programme.</p>
+      <div class="certificate-actions nexus-cert-name">
+        <input id="studentName" type="text" maxlength="70" placeholder="Enter your full name as it should appear">
+      </div>
+      <small class="certificate-note" id="certificateNote">Your eligibility is calculated from the learning progress currently available to this dashboard.</small>
+    </div>
+    <div class="nexus-cert-options">
+      <article class="nexus-cert-option">
+        <div class="nexus-cert-icon">✧</div>
+        <div><label>01 · COURSE RECOGNITION</label><h3>Course Completion</h3>
+        <p>Complete all 3 lessons in any programming language to unlock its individual certificate.</p></div>
+        <div id="courseCertificateList" class="nexus-cert-course-list"></div>
+      </article>
+      <article class="nexus-cert-option academy-cert-option">
+        <div class="nexus-cert-icon">✦</div>
+        <div><label>02 · ACADEMY RECOGNITION</label><h3>Full Academy Achievement</h3>
+        <p>Complete all 30 starter lessons across ten languages and solve all 6 Practice Lab challenges.</p></div>
+        <div id="academyCertificateStatus" class="nexus-cert-status">Checking eligibility…</div>
+        <button type="button" class="primary-btn nexus-cert-button" id="academyCertificateBtn" disabled>Generate academy certificate ↗</button>
+      </article>
     </div>
   </section>
   <section class="quick-links"><a href="practice.html"><span>⚡</span><b>Practice Lab</b><small>Take quizzes and solve challenges</small><i>↗</i></a><a href="courses.html"><span>🎓</span><b>Course library</b><small>Continue your programming lessons</small><i>↗</i></a><a href="index.html"><span>⌨</span><b>Online compiler</b><small>Write and run your code</small><i>↗</i></a></section>
@@ -104,6 +124,32 @@
 .course-language .mini-track span{display:block;height:100%;background:linear-gradient(90deg,#38d9ed,#8c72ff)}
 @media(max-width:800px){.course-language-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.nexus-cloud-panel{align-items:flex-start;flex-wrap:wrap}.cloud-state{margin-left:56px}.course-summary{grid-template-columns:1fr auto}.course-bar{grid-column:1/-1;grid-row:2}.course-language-grid{grid-template-columns:1fr 1fr}}
+
+.nexus-cert-hub{display:block;padding:clamp(20px,3vw,32px);margin:22px 0}
+.nexus-cert-heading{max-width:760px}
+.nexus-cert-heading h2{margin:8px 0}
+.nexus-cert-heading p{max-width:700px}
+.nexus-cert-name{max-width:520px;margin:16px 0 8px}
+.nexus-cert-name input{width:100%;min-width:0}
+.nexus-cert-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+.nexus-cert-option{min-width:0;padding:20px;border:1px solid var(--border,rgba(130,160,210,.18));border-radius:18px;background:linear-gradient(145deg,rgba(46,89,150,.16),rgba(111,72,180,.08))}
+.nexus-cert-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,rgba(56,217,237,.2),rgba(140,114,255,.22));color:var(--cyan);font-size:25px;margin-bottom:16px}
+.nexus-cert-option label{font:10px "DM Mono",monospace;letter-spacing:1.2px;color:var(--cyan)}
+.nexus-cert-option h3{font-size:19px;margin:7px 0}
+.nexus-cert-option p{font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 16px}
+.nexus-cert-course-list{display:grid;gap:8px}
+.nexus-cert-course-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border,rgba(130,160,210,.14));border-radius:11px;background:rgba(7,14,29,.32)}
+.nexus-cert-course-row b{font-size:12px}
+.nexus-cert-course-row small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.nexus-cert-course-row button,.nexus-cert-button{border:0;border-radius:9px;padding:9px 12px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.nexus-cert-course-row button{background:linear-gradient(100deg,#39d9ec,#8b75ff);color:#071126}
+.nexus-cert-course-row button:disabled,.nexus-cert-button:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.4)}
+.nexus-cert-status{font-size:12px;color:var(--muted);padding:12px;border:1px solid var(--border,rgba(130,160,210,.14));border-radius:11px;margin:14px 0}
+.nexus-cert-status.unlocked{color:#55dcb7;border-color:rgba(85,220,183,.35);background:rgba(85,220,183,.07)}
+.nexus-cert-status.locked{color:#f0bd69}
+.nexus-cert-button{width:100%;margin-top:4px}
+@media(max-width:700px){.nexus-cert-options{grid-template-columns:1fr}.nexus-cert-option{padding:16px}.nexus-cert-course-row{align-items:flex-start}.nexus-cert-course-row button{font-size:10px;padding:8px}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>

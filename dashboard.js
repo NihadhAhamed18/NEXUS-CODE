@@ -9,7 +9,8 @@ const COURSES = [
   ["python","Python"],["c","C"],["cpp","C++"],["java","Java"],["javascript","JavaScript"],
   ["csharp","C#"],["php","PHP"],["ruby","Ruby"],["go","Go"],["rust","Rust"]
 ];
-const TOTAL_CHALLENGES = 6, TOTAL_LESSONS = 30;
+const LESSONS_PER_COURSE = 11;
+const TOTAL_CHALLENGES = 6, TOTAL_LESSONS = COURSES.length * LESSONS_PER_COURSE;
 let data, courseRows = [], user = null, db = null, cloudDates = {};
 
 function readJSON(key, fallback) {
@@ -82,8 +83,8 @@ function renderCourses(rows) {
   $("courseProgressFill").style.width=pct+"%";
   const grid=$("courseLanguageGrid");
   grid.innerHTML=COURSES.map(([id,name])=>{
-    const count=completed.filter(r=>r.language_id===id).length,percent=Math.round(count/3*100);
-    return `<div class="course-language"><b>${name}</b><small>${count} of 3 lessons · ${percent}%</small><div class="mini-track"><span style="width:${percent}%"></span></div></div>`;
+    const count=completed.filter(r=>r.language_id===id).length,percent=Math.round(count/LESSONS_PER_COURSE*100);
+    return `<div class="course-language"><b>${name}</b><small>${count} of ${LESSONS_PER_COURSE} lessons · ${percent}%</small><div class="mini-track"><span style="width:${percent}%"></span></div></div>`;
   }).join("");
 }
 const badges = [
@@ -94,7 +95,7 @@ const badges = [
   {icon:"🔥",name:"Consistency",desc:"Build a 3-day learning streak",test:(c,l,s)=>s.best>=3},
   {icon:"👑",name:"Challenge Master",desc:"Solve all 6 Practice Lab challenges",test:c=>c>=6},
   {icon:"📚",name:"Course Explorer",desc:"Complete 10 course lessons",test:(c,l)=>l>=10},
-  {icon:"🏆",name:"Course Finisher",desc:"Complete all 30 starter lessons",test:(c,l)=>l>=30}
+  {icon:"🏆",name:"Course Finisher",desc:"Complete all 110 guided lessons",test:(c,l)=>l>=30}
 ];
 function render() {
   const lessons=uniqueLessons([...courseRows,...localLessonRows()]);
@@ -133,10 +134,9 @@ function render() {
     $("badgeGrid").appendChild(card);
   });
   $("badgeCount").textContent=`${count} / ${badges.length} unlocked`;
-  const allowed=done>=3;
-  $("certificateBtn").disabled=!allowed;
-  $("certificateNote").textContent=allowed?"Milestone unlocked! Enter your name to generate your certificate.":"Complete at least 3 lessons or coding challenges to unlock your certificate.";
+  $("certificateNote").textContent="Eligibility is based on completed lessons and challenges shown above. Enter your full name to generate an unlocked certificate.";
   renderCourses(lessons);
+  renderCertificateHub(lessons);
 }
 function setCloud(title,message,state,kind="") {
   $("cloudTitle").textContent=title;$("cloudMessage").textContent=message;
@@ -175,21 +175,52 @@ async function initCloud() {
     setCloud("Could not load cloud progress",err?.message||"Check your Supabase settings and table permissions.","SYNC ERROR","error");
   }
 }
-function certificate(name) {
-  const w=window.open("","_blank");
-  if(!w){$("certificateNote").textContent="Please allow pop-ups to generate your certificate.";return;}
-  const safe=name.replace(/[<>&"']/g,"");
-  const date=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-  w.document.write(`<!doctype html><html><head><title>NEXUS ACADEMY Certificate</title><style>*{box-sizing:border-box}body{margin:0;padding:35px;background:#eef3fb;font-family:Georgia,serif;color:#182747}.sheet{max-width:1000px;min-height:680px;margin:auto;padding:60px;border:12px double #527ca8;background:#fff;text-align:center;position:relative}.brand{font:bold 15px Arial;letter-spacing:5px;color:#187eaa}.mark{font:60px Arial;color:#2789b8;margin:35px 0 5px}.kicker{font:12px Arial;letter-spacing:5px;color:#71819b}.title{font-size:48px;margin:14px 0;color:#17345a}.copy{font:18px Arial;color:#53627a;margin:20px}.name{font-size:38px;color:#137eaa;border-bottom:1px solid #9aabc0;display:inline-block;padding:8px 50px;margin:20px}.detail{font:15px Arial;color:#596b84;line-height:1.8}.footer{display:flex;justify-content:space-between;margin-top:55px;font:12px Arial;color:#53627a}.seal{position:absolute;right:55px;bottom:65px;border:3px solid #4a9ac0;border-radius:50%;width:90px;height:90px;display:grid;place-items:center;color:#2789b8;font:30px Arial}@media print{body{padding:0;background:white}.sheet{min-height:95vh}}</style></head><body><div class="sheet"><div class="brand">NEXUS ACADEMY</div><div class="mark">✦</div><div class="kicker">CERTIFICATE OF ACHIEVEMENT</div><div class="title">Learning Milestone</div><div class="copy">This certificate is proudly presented to</div><div class="name">${safe}</div><div class="detail">for completing at least three learning milestones<br>through NEXUS ACADEMY courses and Practice Lab.<br><br>Keep learning. Keep building. Keep innovating.</div><div class="footer"><span>Issued: ${date}</span><span>Personal learning achievement · NEXUS ACADEMY</span></div><div class="seal">✦</div></div><script>window.onload=()=>setTimeout(()=>window.print(),350)<\/script></body></html>`);
-  w.document.close();
+function openCertificate(type, name, courseName="") {
+  const params = new URLSearchParams({type, name});
+  if (courseName) params.set("course", courseName);
+  window.location.href = "certificate.html?" + params.toString();
 }
-$("certificateBtn").addEventListener("click",()=>{
-  const name=$("studentName").value.trim();
-  if(!name){$("certificateNote").textContent="Please enter your name first.";return;}
-  const lessons=uniqueLessons([...courseRows,...localLessonRows()]);
-  if(completedChallengeCount()+lessons.length<3)return;
-  certificate(name);
-});
+function renderCertificateHub(lessons) {
+  const nameInput = $("studentName");
+  const courseList = $("courseCertificateList");
+  const academyStatus = $("academyCertificateStatus");
+  const academyButton = $("academyCertificateBtn");
+  if (!courseList || !academyStatus || !academyButton) return;
+
+  courseList.innerHTML = COURSES.map(([id, name]) => {
+    const count = lessons.filter(row => row.language_id === id).length;
+    const eligible = count >= LESSONS_PER_COURSE;
+    const courseTitle = name + " Foundations";
+    return `<div class="nexus-cert-course-row">
+      <div><b>${name}</b><small>${count}/${LESSONS_PER_COURSE} lessons completed · ${eligible ? "Certificate unlocked" : `Complete all ${LESSONS_PER_COURSE} lessons`}</small></div>
+      <button type="button" data-course="${id}" ${eligible ? "" : "disabled"}>${eligible ? "Get certificate ↗" : "Locked"}</button>
+    </div>`;
+  }).join("");
+
+  courseList.querySelectorAll("button[data-course]").forEach(button => {
+    button.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      if (!name) { nameInput.focus(); $("certificateNote").textContent = "Enter your full name before generating a certificate."; return; }
+      const course = COURSES.find(item => item[0] === button.dataset.course);
+      if (!course) return;
+      openCertificate("course", name, course[1] + " Foundations");
+    });
+  });
+
+  const allLessonsDone = lessons.length >= TOTAL_LESSONS;
+  const allChallengesDone = completedChallengeCount() >= TOTAL_CHALLENGES;
+  const academyEligible = allLessonsDone && allChallengesDone;
+  academyStatus.className = "nexus-cert-status " + (academyEligible ? "unlocked" : "locked");
+  academyStatus.textContent = academyEligible
+    ? "✦ Academy milestone unlocked — all 110 lessons and all 6 coding challenges are complete."
+    : `Locked · ${lessons.length}/${TOTAL_LESSONS} lessons and ${completedChallengeCount()}/6 challenges completed.`;
+  academyButton.disabled = !academyEligible;
+  academyButton.onclick = () => {
+    const name = nameInput.value.trim();
+    if (!name) { nameInput.focus(); $("certificateNote").textContent = "Enter your full name before generating a certificate."; return; }
+    if (academyEligible) openCertificate("academy", name);
+  };
+}
 $("themeToggle").addEventListener("click",()=>{
   document.body.classList.toggle("light");
   localStorage.setItem("nexusPracticeTheme",document.body.classList.contains("light")?"light":"dark");

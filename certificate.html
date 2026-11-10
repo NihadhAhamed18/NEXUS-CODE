@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071126">
+  <title>NEXUS ACADEMY | Certificate Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="certificate.css">
+<link rel="stylesheet" href="nexus-theme.css?v=20261110-premium-refresh">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="academy.html"><span class="brand-icon">&lt;/&gt;</span><span>NEXUS <b>ACADEMY</b><small>LEARN · BUILD · INNOVATE</small></span></a>
+    <nav><a href="academy.html">Home</a><a href="courses.html">Courses</a><a href="dashboard.html">Dashboard</a><a href="practice.html">Practice Lab</a></nav>
+  </header>
+
+  <main class="studio">
+    <section class="intro">
+      <span class="eyebrow">NEXUS ACADEMY · CERTIFICATE STUDIO</span>
+      <h1>Celebrate what <span>you've built.</span></h1>
+      <p>Create a personal learning certificate in the NEXUS signature digital style. Choose a course certificate or a full academy achievement certificate.</p>
+    </section>
+
+    <section class="workspace">
+      <form class="panel controls" id="certificateForm">
+        <div class="panel-heading"><span class="eyebrow">01 / DETAILS</span><h2>Certificate details</h2></div>
+        <label>Certificate type
+          <select id="certificateType">
+            <option value="course">Individual course completion</option>
+            <option value="academy">Full academy achievement</option>
+          </select>
+        </label>
+        <label>Student full name
+          <input id="studentName" maxlength="70" placeholder="Enter your full name" required>
+        </label>
+        <label id="courseField">Course / learning path
+          <input id="courseName" maxlength="90" placeholder="e.g. Python Foundations">
+        </label>
+        <label>Completion date
+          <input id="completionDate" type="date" required>
+        </label>
+        <label>Certificate ID
+          <div class="id-row"><input id="certificateId" readonly><button type="button" class="small-btn" id="newId">New ID</button></div>
+        </label>
+        <div class="note"><b>Eligibility reminder</b><span>Generate a certificate only after completing the relevant course or academy milestones. This is a personal learning achievement certificate, not an accredited qualification.</span></div>
+        <button class="primary-btn" type="submit">Update certificate preview <span>↗</span></button>
+        <button class="outline-btn" type="button" id="downloadBtn">Print / Save as PDF</button>
+      </form>
+
+      <section class="preview-area">
+        <div class="preview-head"><div><span class="eyebrow">02 / LIVE PREVIEW</span><h2>Your certificate</h2></div><span class="portrait-tag">A4 · PORTRAIT</span></div>
+        <article class="certificate" id="certificate">
+          <div class="cert-border">
+            <div class="corner corner-tl"></div><div class="corner corner-tr"></div><div class="corner corner-bl"></div><div class="corner corner-br"></div>
+            <div class="circuit circuit-left"></div><div class="circuit circuit-right"></div>
+            <div class="cert-top">
+              <div class="cert-logo">&lt;/&gt;</div>
+              <div class="cert-brand">NEXUS <span>ACADEMY</span></div>
+              <div class="cert-tagline">LEARN · PRACTICE · MASTER</div>
+            </div>
+            <div class="laurel">✦ &nbsp; ✧ &nbsp; ✦</div>
+            <div class="cert-kicker">OFFICIAL LEARNING RECOGNITION</div>
+            <h2 class="cert-title">CERTIFICATE</h2>
+            <div class="cert-subtitle">OF <span id="certSubtitle">COMPLETION</span></div>
+            <div class="gold-rule"><i></i></div>
+            <p class="presented">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+            <h3 class="recipient" id="previewName">STUDENT NAME</h3>
+            <div class="recipient-line"></div>
+            <p class="completion-copy" id="completionCopy">for successfully completing the learning path</p>
+            <div class="course-ribbon"><span id="previewCourse">COURSE TITLE</span></div>
+            <p class="support-copy" id="supportCopy">through NEXUS ACADEMY, demonstrating dedication, knowledge and practical skills.</p>
+            <div class="medal-wrap"><div class="medal"><span>✦</span><b>&lt;/&gt;</b><small>NEXUS</small></div></div>
+            <div class="signature-row">
+              <div class="signature"><div class="sign-line"></div><b>PROGRAM DIRECTOR</b><small>NEXUS ACADEMY</small></div>
+              <div class="signature"><div class="sign-line"></div><b>ACADEMIC COORDINATOR</b><small>NEXUS ACADEMY</small></div>
+            </div>
+            <div class="cert-footer">
+              <div><small>COMPLETION DATE</small><b id="previewDate">—</b></div>
+              <div><small>CERTIFICATE ID</small><b id="previewId">NXA-0000-000000</b></div>
+            </div>
+            <div class="qr-wrap"><div id="qrCode"></div><small>SCAN TO VIEW CERTIFICATE DETAILS</small></div>
+            <div class="bottom-motto">KEEP LEARNING. KEEP BUILDING. KEEP INNOVATING.</div>
+          </div>
+        </article>
+        <p class="preview-help">Tip: use “Print / Save as PDF”, then choose A4 paper and enable background graphics in your print settings.</p>
+      </section>
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="certificate.js"></script>
+</body>
+</html>

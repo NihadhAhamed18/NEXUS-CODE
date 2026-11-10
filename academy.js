@@ -1,15 +1,15 @@
 
 const courses = [
     {id:"python", name:"Python Programming", icon:"🐍", description:"Learn Python from your first program to object-oriented programming.", color:"#398cff", level:"BEGINNER TO ADVANCED", available:true},
-    {id:"cpp", name:"C++ Programming", icon:"⚙️", description:"Master C++ syntax, pointers, classes and algorithms.", color:"#58a6ff"},
-    {id:"c", name:"C Programming", icon:"💻", description:"Understand programming fundamentals and memory management.", color:"#a78bfa"},
-    {id:"java", name:"Java Programming", icon:"☕", description:"Learn Java, OOP, collections and application development.", color:"#ff9b55"},
-    {id:"javascript", name:"JavaScript", icon:"🌐", description:"Build interactive websites and modern web applications.", color:"#f0cf56"},
-    {id:"csharp", name:"C# Programming", icon:"🟣", description:"Explore C#, object-oriented programming and .NET.", color:"#a78bfa"},
-    {id:"php", name:"PHP Development", icon:"🐘", description:"Learn server-side programming and dynamic websites.", color:"#8299ff"},
-    {id:"ruby", name:"Ruby Programming", icon:"💎", description:"Learn Ruby fundamentals and application development.", color:"#ff697d"},
-    {id:"go", name:"Go Programming", icon:"🚀", description:"Build efficient applications with Google's Go language.", color:"#4ad5df"},
-    {id:"rust", name:"Rust Programming", icon:"🦀", description:"Learn safe systems programming with Rust.", color:"#ff9b55"}
+    {id:"cpp", name:"C++ Programming", icon:"⚙️", description:"Start learning C++ syntax, variables and conditional statements.", color:"#58a6ff", available:true},
+    {id:"c", name:"C Programming", icon:"💻", description:"Understand programming fundamentals and memory management.", color:"#a78bfa", available:true},
+    {id:"java", name:"Java Programming", icon:"☕", description:"Learn Java, OOP, collections and application development.", color:"#ff9b55", available:true},
+    {id:"javascript", name:"JavaScript", icon:"🌐", description:"Build interactive websites and modern web applications.", color:"#f0cf56", available:true},
+    {id:"csharp", name:"C# Programming", icon:"🟣", description:"Explore C#, object-oriented programming and .NET.", color:"#a78bfa", available:true},
+    {id:"php", name:"PHP Development", icon:"🐘", description:"Learn server-side programming and dynamic websites.", color:"#8299ff", available:true},
+    {id:"ruby", name:"Ruby Programming", icon:"💎", description:"Learn Ruby fundamentals and application development.", color:"#ff697d", available:true},
+    {id:"go", name:"Go Programming", icon:"🚀", description:"Build efficient applications with Google's Go language.", color:"#4ad5df", available:true},
+    {id:"rust", name:"Rust Programming", icon:"🦀", description:"Learn safe systems programming with Rust.", color:"#ff9b55", available:true}
 ];
 
 const pythonLessons = [
@@ -244,39 +244,44 @@ function getPercentage(courseId, total) {
 function renderCourses() {
 
     const grid = $("courseGrid");
-
     grid.innerHTML = "";
+
+    let syncedProgress = {};
+    try {
+        syncedProgress = JSON.parse(
+            localStorage.getItem("nexusAcademyStage4Progress") || "{}"
+        );
+    } catch {
+        syncedProgress = {};
+    }
 
     courses.forEach(course => {
 
-        const progress = course.available
-            ? getPercentage("python", pythonLessons.length)
-            : 0;
+        const legacyProgress = getCompleted(course.id);
+        const syncedCompleted = Object.keys(syncedProgress).filter(key =>
+            key.startsWith(course.id + "_") && syncedProgress[key]?.completed
+        ).length;
+        const progress = Math.max(
+            course.id === "python" ? getPercentage("python", pythonLessons.length) : 0,
+            Math.round(syncedCompleted / 3 * 100),
+            Math.round(legacyProgress.length / 3 * 100)
+        );
 
         const card = document.createElement("div");
-
         card.className = "course-card";
-
-        card.style.setProperty(
-            "--card-color",
-            course.color
-        );
+        card.style.setProperty("--card-color", course.color);
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `Open ${course.name} course`);
 
         card.innerHTML = `
             <div class="course-icon">${course.icon}</div>
-
             <h3>${course.name}</h3>
-
             <p>${course.description}</p>
-
-            <span class="course-level">
-                ${course.available ? "AVAILABLE NOW" : "COMING SOON"}
-            </span>
-
+            <span class="course-level">AVAILABLE NOW</span>
             <div class="card-progress">
-                <div style="width:${progress}%"></div>
+                <div style="width:${Math.min(progress, 100)}%"></div>
             </div>
-
             <div style="
                 display:flex;
                 justify-content:space-between;
@@ -284,24 +289,25 @@ function renderCourses() {
                 font-size:10px;
                 color:var(--muted);
             ">
-                <span>${course.available ? "Your progress" : "Course preparation"}</span>
-                <strong>${progress}%</strong>
+                <span>Your progress</span>
+                <strong>${Math.min(progress, 100)}%</strong>
             </div>
         `;
 
-        card.addEventListener("click", () => {
-            if (course.available) {
-                openCourse(course.id);
-            } else {
-                alert(
-                    course.name +
-                    " will be added in a future update."
-                );
+        const openSelectedCourse = () => {
+            // All languages use the same expanded classroom and lesson navigation.
+            window.location.href =
+                `courses.html?course=${encodeURIComponent(course.id)}#course-area`;
+        };
+        card.addEventListener("click", openSelectedCourse);
+        card.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openSelectedCourse();
             }
         });
 
         grid.appendChild(card);
-
     });
 }
 

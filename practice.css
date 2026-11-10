@@ -12,3 +12,389 @@ body.light{--bg:#f3f7ff;--panel:#ffffffdf;--text:#14213b;--muted:#63718c;--line:
 @media(max-width:800px){.code-float{right:0;width:220px;opacity:.55}.quiz-layout{grid-template-columns:1fr}.topics{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.topic{padding:10px 7px;gap:7px;font-size:15px}.topic b{font-size:10px}.topic small{font-size:9px}.challenge-grid{grid-template-columns:repeat(2,1fr)}.workspace-columns{grid-template-columns:1fr}}
 @media(max-width:560px){.topbar{height:65px;padding:0 5%}nav{gap:13px}nav a{font-size:10px}nav a:first-child{display:none}.brand{font-size:12px}.hero{padding:55px 0 35px}.code-float{display:none}h1{font-size:44px;letter-spacing:-2px}.stats{gap:20px}.stats b{font-size:20px}.stats small{font-size:9px}.heading{align-items:start;gap:10px;flex-direction:column}.heading h2{font-size:25px}.topics{grid-template-columns:1fr}.topic{padding:11px}.quiz-panel{padding:20px 16px}.answers{grid-template-columns:1fr}.challenge-grid{grid-template-columns:1fr}.challenge-heading{margin-top:65px}.banner{align-items:flex-start;flex-wrap:wrap}.banner a{margin-left:40px}footer{gap:12px;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* =========================================================
+   NEXUS ACADEMY — CREATIVE EXPERIENCE REFRESH
+   Aurora glass / electric indigo / editorial learning UI
+   ========================================================= */
+:root {
+  --nx-ink: #07101f;
+  --nx-glass: rgba(15, 27, 51, .76);
+  --nx-glass-strong: rgba(18, 33, 62, .94);
+  --nx-line: rgba(137, 174, 255, .20);
+  --nx-cyan: #54e8ff;
+  --nx-blue: #5796ff;
+  --nx-violet: #a77aff;
+  --nx-pink: #f18bdb;
+  --nx-radius: 22px;
+}
+html { scroll-behavior: smooth; }
+body {
+  background-image:
+    radial-gradient(ellipse at 8% 8%, rgba(27,116,255,.16), transparent 34%),
+    radial-gradient(ellipse at 92% 24%, rgba(153,76,255,.14), transparent 32%),
+    radial-gradient(ellipse at 55% 100%, rgba(0,215,226,.08), transparent 38%);
+  background-attachment: fixed;
+  letter-spacing: -.012em;
+}
+body:after {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  opacity: .18;
+  background-image: radial-gradient(rgba(169,198,255,.35) .7px, transparent .7px);
+  background-size: 23px 23px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+::selection { background: rgba(75,218,255,.28); color: #fff; }
+a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, a { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease, color .22s ease; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--nx-cyan); outline-offset: 3px;
+}
+.topbar, .navbar {
+  background: rgba(5, 12, 27, .78) !important;
+  border-bottom: 1px solid rgba(132,174,255,.17) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+}
+.brand, .logo { filter: drop-shadow(0 5px 16px rgba(52,144,255,.16)); }
+.hero { position: relative; isolation: isolate; }
+.hero:before {
+  content: ""; position: absolute; z-index: -1; inset: -28px -24px;
+  border: 1px solid rgba(124,170,255,.10); border-radius: 30px;
+  background: linear-gradient(135deg, rgba(44,112,220,.10), rgba(130,72,218,.07) 55%, rgba(0,211,226,.04));
+  box-shadow: inset 0 1px rgba(255,255,255,.035), 0 30px 90px rgba(0,0,0,.12);
+  pointer-events: none;
+}
+.eyebrow, .section-kicker, .tag-line {
+  letter-spacing: .17em; text-transform: uppercase; font-weight: 800;
+}
+.card, .course-card, .stat-card, .panel, .glass, .challenge-card, .quiz-card,
+.lesson-sidebar, .lesson-panel, .lesson-view, .editor-panel, .terminal-panel,
+.achievements-panel, .streak-panel, .certificate-panel, .resource-grid > *,
+.stat, .badge-card {
+  border: 1px solid var(--nx-line);
+  background: linear-gradient(145deg, rgba(20,36,66,.88), rgba(10,20,40,.86));
+  box-shadow: 0 18px 55px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.045);
+  backdrop-filter: blur(16px);
+}
+.course-card, .challenge-card, .stat-card, .badge-card, .resource-grid > * {
+  border-radius: var(--nx-radius);
+  overflow: hidden;
+  position: relative;
+}
+.course-card:before, .challenge-card:before, .stat-card:before {
+  content: ""; position: absolute; left: 18px; right: 18px; top: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(89,224,255,.7), rgba(169,124,255,.55), transparent);
+  opacity: .65;
+}
+.course-card:hover, .challenge-card:hover, .stat-card:hover, .badge-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(84,224,255,.42);
+  box-shadow: 0 24px 65px rgba(0,0,0,.30), 0 0 34px rgba(55,146,255,.10);
+}
+.primary-btn, .btn-primary, .primary, .run-btn, .practice-btn {
+  color: #04101d !important;
+  border: 0 !important;
+  background: linear-gradient(105deg, #56e6ff, #65a5ff 52%, #b18aff) !important;
+  box-shadow: 0 10px 28px rgba(65,151,255,.24), inset 0 1px rgba(255,255,255,.55);
+  font-weight: 800;
+}
+.primary-btn:hover, .btn-primary:hover, .primary:hover, .run-btn:hover, .practice-btn:hover {
+  transform: translateY(-2px); filter: saturate(1.12);
+  box-shadow: 0 15px 34px rgba(65,151,255,.34);
+}
+.secondary-btn, .btn-outline, .outline-btn, .secondary, .theme-btn {
+  border: 1px solid rgba(129,174,255,.25) !important;
+  background: rgba(22,39,70,.58) !important;
+  color: var(--text, #edf5ff);
+}
+.secondary-btn:hover, .btn-outline:hover, .outline-btn:hover, .secondary:hover, .theme-btn:hover {
+  border-color: rgba(84,224,255,.65) !important;
+  background: rgba(40,75,125,.45) !important;
+  transform: translateY(-2px);
+}
+.lesson-item, .lesson-row, .language-btn, .quiz-option, .answer, .filter {
+  border-radius: 13px;
+  transition: .2s ease;
+}
+.lesson-item:hover, .lesson-row:hover, .language-btn:hover, .quiz-option:hover, .answer:hover {
+  border-color: rgba(84,224,255,.42);
+  background: rgba(58,112,180,.16);
+}
+.lesson-item.active, .lesson-row.active, .language-btn.active, .quiz-option.selected {
+  border-color: rgba(84,224,255,.68);
+  background: linear-gradient(100deg, rgba(46,147,226,.20), rgba(139,91,231,.13));
+  box-shadow: inset 3px 0 #52e7ff, 0 8px 24px rgba(0,0,0,.12);
+}
+.progress-track, .progress {
+  overflow: hidden; border-radius: 999px; background: rgba(125,153,198,.16);
+}
+.progress-track > *, .progress > * {
+  border-radius: inherit; background: linear-gradient(90deg, #43e7ff, #568fff 58%, #b17bff);
+  box-shadow: 0 0 14px rgba(75,185,255,.30);
+}
+input, select, textarea, .editor, pre {
+  border-color: rgba(129,174,255,.22) !important;
+}
+input, select, textarea {
+  border-radius: 12px !important;
+  background-color: rgba(5,14,30,.62) !important;
+}
+pre, .code-sample, .lesson-example {
+  border-radius: 16px;
+  box-shadow: inset 0 1px rgba(255,255,255,.035), 0 14px 34px rgba(0,0,0,.18);
+}
+.toast { border: 1px solid rgba(84,224,255,.3); box-shadow: 0 16px 40px rgba(0,0,0,.3); backdrop-filter: blur(18px); }
+@keyframes nxFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+@keyframes nxShimmer { 0% { background-position: 0% 50% } 100% { background-position: 200% 50% } }
+.hero-orb, .orb-ring { animation: nxFloat 7s ease-in-out infinite; }
+@media (max-width: 760px) {
+  .hero:before { inset: -14px -10px; border-radius: 22px; }
+  .course-card:hover, .challenge-card:hover, .stat-card:hover, .badge-card:hover { transform: translateY(-3px); }
+  .topbar, .navbar { padding-left: 4%; padding-right: 4%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *:before, *:after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+body.light .course-card, body.light .stat-card, body.light .panel, body.light .glass,
+body.light .challenge-card, body.light .quiz-card, body.light .lesson-sidebar,
+body.light .lesson-panel, body.light .lesson-view, body.light .editor-panel,
+body.light .terminal-panel, body.light .achievements-panel, body.light .streak-panel,
+body.light .certificate-panel, body.light .resource-grid > *, body.light .stat,
+body.light .badge-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(238,245,255,.94));
+  border-color: rgba(82,119,178,.19);
+  box-shadow: 0 18px 45px rgba(47,78,125,.10), inset 0 1px #fff;
+}
+body.light .topbar, body.light .navbar {
+  background: rgba(247,250,255,.86) !important;
+  border-bottom-color: rgba(82,119,178,.18) !important;
+}
+body.light input, body.light select, body.light textarea {
+  background-color: rgba(255,255,255,.92) !important;
+}
+body.light .secondary-btn, body.light .btn-outline, body.light .outline-btn,
+body.light .secondary, body.light .theme-btn {
+  background: rgba(231,240,255,.82) !important;
+}
+
+
+
+/* =========================================================
+   NEXUS ACADEMY — OBSIDIAN QUANTUM CINEMATIC THEME
+   Midnight graphite / plasma cyan / ion violet / soft silver
+   ========================================================= */
+:root {
+  --nx-bg-deep: #030712;
+  --nx-bg-mid: #071426;
+  --nx-panel-glass: rgba(10, 22, 42, .78);
+  --nx-panel-edge: rgba(105, 190, 235, .22);
+  --nx-plasma: #39e7ff;
+  --nx-ion: #8b78ff;
+  --nx-ice: #c5f6ff;
+  --nx-silver: #dce8f5;
+  --nx-gold: #ffca7a;
+}
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--nx-bg-deep) !important;
+  background-image:
+    radial-gradient(ellipse at 16% 12%, rgba(0, 163, 255, .16), transparent 30%),
+    radial-gradient(ellipse at 88% 20%, rgba(126, 70, 255, .15), transparent 31%),
+    radial-gradient(ellipse at 52% 92%, rgba(0, 224, 208, .075), transparent 38%),
+    linear-gradient(145deg, #030712 0%, #071326 48%, #050b19 100%);
+  background-attachment: fixed;
+}
+body:after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: .13;
+  background: repeating-linear-gradient(
+    to bottom, transparent 0px, transparent 3px,
+    rgba(126, 208, 255, .10) 4px, transparent 5px
+  );
+  mix-blend-mode: screen;
+}
+body:before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.34) 100%);
+}
+::selection { background: rgba(57,231,255,.28); color: #fff; }
+.navbar, .topbar {
+  background: rgba(3, 9, 21, .82) !important;
+  border-bottom: 1px solid rgba(81, 188, 237, .22) !important;
+  box-shadow: 0 12px 45px rgba(0,0,0,.34), 0 1px rgba(255,255,255,.035) inset;
+  backdrop-filter: blur(24px) saturate(155%);
+  -webkit-backdrop-filter: blur(24px) saturate(155%);
+}
+.navbar:after, .topbar:after {
+  content: ""; position: absolute; left: 5%; right: 5%; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(57,231,255,.7), rgba(139,120,255,.55), transparent);
+  opacity: .7; pointer-events: none;
+}
+.brand .logo, .logo, .brand-mark {
+  box-shadow: 0 0 18px rgba(45,177,255,.38), 0 0 42px rgba(125,85,255,.18), inset 0 1px rgba(255,255,255,.45);
+}
+.hero {
+  isolation: isolate;
+  position: relative;
+}
+.hero:before {
+  content: ""; position: absolute; z-index: -1; inset: -32px -28px;
+  border: 1px solid rgba(94, 193, 244, .17); border-radius: 28px;
+  background:
+    linear-gradient(120deg, rgba(18,67,111,.28), rgba(30,22,75,.20) 55%, rgba(0,115,139,.10)),
+    radial-gradient(ellipse at 50% 0%, rgba(57,231,255,.09), transparent 65%);
+  box-shadow: 0 28px 90px rgba(0,0,0,.23), inset 0 1px rgba(255,255,255,.06);
+  overflow: hidden; pointer-events: none;
+}
+.hero:after {
+  content: ""; position: absolute; z-index: -1; top: -80%; left: -30%;
+  width: 28%; height: 260%; transform: rotate(24deg);
+  background: linear-gradient(90deg, transparent, rgba(95,221,255,.055), transparent);
+  animation: nxCinematicSweep 9s ease-in-out infinite;
+  pointer-events: none;
+}
+.eyebrow, .section-kicker, .tagline, .tag-line {
+  text-shadow: 0 0 18px rgba(57,231,255,.22);
+}
+.course-card, .challenge-card, .stat-card, .panel, .glass,
+.quiz-card, .lesson-sidebar, .lesson-panel, .lesson-view,
+.editor-panel, .terminal-panel, .achievements-panel,
+.streak-panel, .certificate-panel, .badge-card, .resource-grid > *,
+.stat, .card {
+  position: relative;
+  border: 1px solid rgba(105,190,235,.20) !important;
+  background:
+    linear-gradient(145deg, rgba(13,29,53,.92), rgba(6,16,33,.90)) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.28),
+              inset 0 1px rgba(255,255,255,.055),
+              0 0 0 1px rgba(255,255,255,.012);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+.course-card:before, .challenge-card:before, .stat-card:before,
+.panel:before, .quiz-card:before {
+  content: ""; position: absolute; top: 0; left: 14%; right: 14%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(57,231,255,.78), rgba(139,120,255,.65), transparent);
+  opacity: .72; pointer-events: none;
+}
+.course-card:hover, .challenge-card:hover, .stat-card:hover, .badge-card:hover {
+  transform: translateY(-7px) scale(1.008);
+  border-color: rgba(57,231,255,.52) !important;
+  box-shadow: 0 28px 75px rgba(0,0,0,.36),
+              0 0 32px rgba(39,176,255,.13),
+              inset 0 1px rgba(255,255,255,.08);
+}
+.primary-btn, .btn-primary, .primary, .run-btn, .practice-btn {
+  color: #03101c !important;
+  border: 1px solid rgba(206,250,255,.45) !important;
+  background: linear-gradient(105deg, #42e8f5 0%, #51a9ff 48%, #9c82ff 100%) !important;
+  box-shadow: 0 10px 30px rgba(40,166,255,.24), inset 0 1px rgba(255,255,255,.62);
+  font-weight: 850;
+  letter-spacing: .01em;
+}
+.primary-btn:hover, .btn-primary:hover, .primary:hover, .run-btn:hover, .practice-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 38px rgba(40,166,255,.34), 0 0 24px rgba(57,231,255,.16);
+  filter: saturate(1.14) brightness(1.04);
+}
+.secondary-btn, .btn-outline, .outline-btn, .secondary, .theme-btn {
+  border: 1px solid rgba(116,181,225,.28) !important;
+  background: linear-gradient(135deg, rgba(20,45,75,.72), rgba(16,24,51,.72)) !important;
+  color: var(--text, #edf5ff);
+}
+.secondary-btn:hover, .btn-outline:hover, .outline-btn:hover, .secondary:hover, .theme-btn:hover {
+  border-color: rgba(57,231,255,.68) !important;
+  box-shadow: 0 0 22px rgba(57,231,255,.11);
+  transform: translateY(-2px);
+}
+.lesson-item, .lesson-row, .language-btn, .quiz-option, .answer, .filter {
+  border-radius: 13px;
+  transition: background .22s ease, border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+.lesson-item:hover, .lesson-row:hover, .language-btn:hover, .quiz-option:hover, .answer:hover {
+  border-color: rgba(57,231,255,.42);
+  background: rgba(37,117,160,.16);
+  transform: translateX(2px);
+}
+.lesson-item.active, .lesson-row.active, .language-btn.active, .quiz-option.selected {
+  border-color: rgba(57,231,255,.70);
+  background: linear-gradient(100deg, rgba(24,151,190,.20), rgba(111,80,211,.16));
+  box-shadow: inset 3px 0 #39e7ff, 0 8px 24px rgba(0,0,0,.15);
+}
+.progress-track, .progress {
+  overflow: hidden; border-radius: 999px; background: rgba(135,169,207,.15);
+}
+.progress-track > *, .progress > * {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #39e7ff, #4b9eff 55%, #9c7dff);
+  box-shadow: 0 0 15px rgba(57,231,255,.34);
+}
+input, select, textarea, .editor, pre {
+  border-color: rgba(105,190,235,.22) !important;
+}
+input, select, textarea {
+  border-radius: 12px !important;
+  background-color: rgba(3,12,26,.78) !important;
+}
+pre, .code-sample, .lesson-example {
+  border-radius: 16px;
+  border: 1px solid rgba(73,179,229,.18);
+  box-shadow: inset 0 1px rgba(255,255,255,.035), 0 16px 38px rgba(0,0,0,.24);
+}
+.toast {
+  border: 1px solid rgba(57,231,255,.34);
+  box-shadow: 0 16px 44px rgba(0,0,0,.38), 0 0 22px rgba(57,231,255,.08);
+  backdrop-filter: blur(20px);
+}
+@keyframes nxCinematicSweep {
+  0%, 68% { left: -35%; opacity: 0; }
+  74% { opacity: .9; }
+  90%, 100% { left: 125%; opacity: 0; }
+}
+@keyframes nxAmbientPulse {
+  0%,100% { opacity: .65; filter: blur(95px); }
+  50% { opacity: 1; filter: blur(115px); }
+}
+@media (max-width: 760px) {
+  .hero:before { inset: -16px -10px; border-radius: 20px; }
+  .course-card:hover, .challenge-card:hover, .stat-card:hover, .badge-card:hover { transform: translateY(-3px); }
+  .navbar, .topbar { padding-left: 4%; padding-right: 4%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *:before, *:after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+/* Light mode: polished pearl / ice glass, keeping the same brand accents */
+body.light {
+  background-color: #edf4fb !important;
+  background-image:
+    radial-gradient(ellipse at 12% 8%, rgba(62,177,231,.18), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(151,121,255,.13), transparent 30%),
+    linear-gradient(145deg, #f7fbff, #eaf2fc 55%, #f5f4ff) !important;
+}
+body.light:after { opacity: .045; }
+body.light .navbar, body.light .topbar {
+  background: rgba(246,250,255,.86) !important;
+  border-bottom-color: rgba(68,126,172,.18) !important;
+}
+body.light .course-card, body.light .challenge-card, body.light .stat-card,
+body.light .panel, body.light .glass, body.light .quiz-card,
+body.light .lesson-sidebar, body.light .lesson-panel, body.light .lesson-view,
+body.light .editor-panel, body.light .terminal-panel, body.light .achievements-panel,
+body.light .streak-panel, body.light .certificate-panel, body.light .badge-card,
+body.light .resource-grid > *, body.light .stat, body.light .card {
+  background: linear-gradient(145deg, rgba(255,255,255,.97), rgba(237,245,255,.95)) !important;
+  border-color: rgba(76,126,173,.18) !important;
+  box-shadow: 0 18px 48px rgba(46,88,132,.10), inset 0 1px #fff;
+}
+body.light input, body.light select, body.light textarea {
+  background-color: rgba(255,255,255,.96) !important;
+}
+body.light .secondary-btn, body.light .btn-outline, body.light .outline-btn,
+body.light .secondary, body.light .theme-btn {
+  background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(230,240,255,.92)) !important;
+}

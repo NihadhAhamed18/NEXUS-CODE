@@ -43,3 +43,22 @@ If the public endpoint becomes unavailable or starts requiring credentials, repl
 - Monaco Editor is the browser editor that powers VS Code's editing experience. It is not the full VS Code application.
 - Mobile layout is responsive, but Monaco's official documentation notes that mobile browsers are not officially supported; a compact touchscreen experience may vary by device.
 - Stage 1 uses single-file submissions. Multi-file projects, saving projects/accounts, and collaboration can be added in later stages.
+
+
+## Advanced Practice Lab update
+- 10 language-specific quiz banks (Python, C, C++, Java, JavaScript, C#, PHP, Ruby, Go and Rust).
+- 10 questions per language, including intermediate and advanced concepts (100 questions total).
+- 18 coding challenges across beginner, intermediate and advanced levels, including binary search, balanced brackets, LRU cache design, linked-list cycle detection and sliding-window problems.
+- Quiz length, progress bar, scoring and results are calculated dynamically.
+
+
+## Creative visual refresh
+All six page stylesheets now include a shared visual refresh: aurora lighting, layered glass panels, refined gradients, animated hover states, improved focus indicators, responsive adjustments, reduced-motion support, and light-theme surface overrides. Existing page structure and JavaScript functionality have been retained.
+
+
+## Theme loading fix
+Added `nexus-theme.css` as the final stylesheet on every HTML page with a versioned URL so browser caches refresh. This master override explicitly styles dark and light themes across all page types.
+
+
+## Video Learning Library
+Added a dedicated Video Learning Library to the Courses page with a language filter and ten curated resource cards (Python, C, C++, Java, JavaScript, C#, PHP, Ruby, Go, Rust). Each card opens a targeted YouTube search for full courses and deeper tutorials from reputable educators. These links are external and video availability is controlled by YouTube publishers.

@@ -9,8 +9,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="academy.css">
 <link rel="stylesheet" href="nexus-ui.css">
+<link rel="stylesheet" href="nexus-theme.css?v=20261110-premium-refresh">
 </head>
-<body>
+<body class="nexus-entry-lock">
+
+<!-- NEXUS ACADEMY cinematic entry sequence -->
+<div class="nexus-intro" id="nexusIntro" aria-label="Welcome to NEXUS ACADEMY">
+  <div class="intro-stars" aria-hidden="true"></div>
+  <div class="intro-scanline" aria-hidden="true"></div>
+  <div class="intro-topline"><span class="intro-status-dot"></span> NEXUS ACCESS GATE <span>SECURE CONNECTION ESTABLISHED</span></div>
+  <div class="intro-door intro-door-left" aria-hidden="true">
+    <div class="door-grid"></div><div class="door-circuit circuit-a"></div>
+    <div class="door-label">NEXUS // 01</div>
+  </div>
+  <div class="intro-door intro-door-right" aria-hidden="true">
+    <div class="door-grid"></div><div class="door-circuit circuit-b"></div>
+    <div class="door-label">ACADEMY // 2026</div>
+  </div>
+  <div class="intro-center">
+    <div class="intro-emblem"><span>&lt;/&gt;</span><i></i></div>
+    <div class="intro-kicker">THE NEXT GENERATION OF LEARNING</div>
+    <h1>WELCOME TO <strong>NEXUS ACADEMY</strong></h1>
+    <p>Unlock your potential. Learn, build, and create the future.</p>
+    <div class="intro-loading"><span></span></div>
+    <div class="intro-loading-label">INITIALISING YOUR LEARNING SPACE</div>
+  </div>
+  <button class="intro-skip" id="introSkip" type="button">SKIP INTRO <span>↗</span></button>
+  <div class="intro-bottom"><span>LEARN. PRACTICE. MASTER.</span><span>POWERED BY CURIOSITY <b>✦</b></span></div>
+</div>
+
 
 <div class="background-grid"></div>
 <div class="glow glow-one"></div>
@@ -200,6 +227,7 @@
 
 </main>
 
+<script src="nexus-entry.js"></script>
 <script src="academy.js"></script>
 </body>
 </html>

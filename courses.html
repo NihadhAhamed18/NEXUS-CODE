@@ -9,7 +9,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script defer src="courses.js"></script>
+  <script defer src="video-library.js"></script>
   <link rel="stylesheet" href="nexus-ui.css">
+<link rel="stylesheet" href="nexus-theme.css?v=20261110-premium-refresh">
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -29,7 +31,7 @@
       <h1>Turn curiosity into<br><span>real-world code.</span></h1>
       <p>Learn ten programming languages, complete guided lessons, test your knowledge and keep your progress synced to your student account.</p>
       <div class="hero-actions"><a class="btn btn-primary" href="#course-area">Explore courses <span>↘</span></a><a class="text-link" href="index.html">Open NEXUS CODE compiler ↗</a></div>
-      <div class="hero-stats"><div><strong>10</strong><small>LANGUAGES</small></div><div><strong>30</strong><small>STARTER LESSONS</small></div><div><strong>100%</strong><small>SELF-PACED</small></div></div>
+      <div class="hero-stats"><div><strong>10</strong><small>LANGUAGES</small></div><div><strong>110</strong><small>GUIDED LESSONS</small></div><div><strong>100%</strong><small>SELF-PACED</small></div></div>
     </section>
 
     <section class="account-banner" id="sync-banner">
@@ -53,6 +55,28 @@
       </section>
     </section>
 
+
+    <section class="video-library" id="video-library">
+      <div class="video-library-head">
+        <div><div class="section-kicker">WATCH • LEARN • BUILD</div><h2>Video Learning Library</h2>
+        <p>Hand-picked full courses and in-depth tutorials to take your skills beyond the lessons.</p></div>
+        <span class="video-library-tag">FREE LEARNING RESOURCES</span>
+      </div>
+      <div class="video-filter-row">
+        <label for="video-language-filter">Choose a language</label>
+        <select id="video-language-filter">
+          <option value="all">All programming languages</option>
+          <option value="python">Python</option><option value="c">C</option>
+          <option value="cpp">C++</option><option value="java">Java</option>
+          <option value="javascript">JavaScript</option><option value="csharp">C#</option>
+          <option value="php">PHP</option><option value="ruby">Ruby</option>
+          <option value="go">Go</option><option value="rust">Rust</option>
+        </select>
+      </div>
+      <div class="video-resource-grid" id="video-resource-grid"></div>
+      <p class="video-library-note">Videos are hosted by their creators on YouTube. NEXUS ACADEMY links to the learning resources; availability, language and content are controlled by the video publishers.</p>
+    </section>
+
     <section class="lesson-view hidden" id="lesson-view">
       <button class="back-link" id="back-to-course">← Back to course</button>
       <div class="lesson-view-head"><div><div class="section-kicker" id="lesson-label">LESSON 01</div><h2 id="lesson-title">Introduction</h2><p id="lesson-subtitle"></p></div><span class="lesson-chip">GUIDED LESSON</span></div>
@@ -63,6 +87,10 @@
         <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
         <div class="quiz-actions"><button id="check-answer" class="btn btn-primary">Check answer</button><button id="complete-lesson" class="btn btn-outline" disabled>Complete lesson</button></div>
       </section>
+      <div class="lesson-nav">
+        <button id="previous-lesson" class="btn btn-outline" type="button">← Previous lesson</button>
+        <button id="next-lesson" class="btn btn-primary" type="button">Next lesson →</button>
+      </div>
       <div class="lesson-footer"><span id="lesson-xp">+20 XP on completion</span><a href="index.html" class="text-link">Practise in NEXUS CODE ↗</a></div>
     </section>
     <footer><span>© 2026 NEXUS ACADEMY</span><span>BUILT TO HELP YOU BUILD</span></footer>
