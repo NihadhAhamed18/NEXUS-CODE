@@ -62,3 +62,30 @@ Added `nexus-theme.css` as the final stylesheet on every HTML page with a versio
 
 ## Video Learning Library
 Added a dedicated Video Learning Library to the Courses page with a language filter and ten curated resource cards (Python, C, C++, Java, JavaScript, C#, PHP, Ruby, Go, Rust). Each card opens a targeted YouTube search for full courses and deeper tutorials from reputable educators. These links are external and video availability is controlled by YouTube publishers.
+
+
+## NEXUS AI Coding Assistant (new)
+
+The project now includes a floating AI coding tutor on the Academy, Courses, Student Dashboard, Practice Lab and Compiler pages. It can explain programming concepts, draft code, help debug pasted code and errors, and create guided practice challenges. It requires a signed-in student account.
+
+### Important: one-time secure setup required
+
+The website is hosted on GitHub Pages, so the OpenAI API key must **never** be placed in browser JavaScript or committed to this repository. NEXUS AI calls a Supabase Edge Function, which keeps the AI key on the server. The chat will display a setup message until the function and secret are configured.
+
+1. In the Supabase Dashboard, open **SQL Editor**, paste and run `supabase/nexus-ai-rate-limit.sql`. This enables a limit of 30 requests per student per hour.
+2. In Supabase, open **Edge Functions** and deploy the function named `nexus-ai` using `supabase/functions/nexus-ai/index.ts`. You can deploy with the Supabase CLI from this project folder: `supabase functions deploy nexus-ai`.
+3. In **Project Settings → Edge Functions → Secrets** (or the Edge Function secrets panel), add `OPENAI_API_KEY` with your own OpenAI API key. Optionally add `OPENAI_MODEL` (default: `gpt-4.1-mini`). Supabase provides `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` to Edge Functions. Never expose the service-role key or OpenAI key in GitHub files.
+4. Make sure the `nexus-ai` function has JWT verification enabled. The function independently validates the signed-in student session as well.
+5. Push the updated website files to GitHub Pages. Hard-refresh the site (Ctrl+F5) after deployment.
+
+### AI service costs and limits
+
+OpenAI API usage is billed separately from ChatGPT subscriptions. The account owner must add billing/credits to the OpenAI API project. The included SQL limit allows up to 30 requests per student per hour; adjust the function or SQL if you want a different limit. Review usage and set provider spending limits before inviting students.
+
+### Included files
+
+- `ai-assistant.js` and `ai-assistant.css` — floating chat UI and student session handling.
+- `supabase/functions/nexus-ai/index.ts` — server-side AI proxy using the OpenAI Responses API.
+- `supabase/nexus-ai-rate-limit.sql` — per-student hourly request limit.
+
+The AI assistant receives the current page name and the recent chat messages. Students should paste the relevant code and exact error message into the chat when requesting debugging help. It does not automatically read or modify the Monaco editor contents.
