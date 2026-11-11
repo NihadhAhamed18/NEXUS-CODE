@@ -1,0 +1,50 @@
+/* NEXUS CODE — mobile performance and responsive stability */
+@media (max-width: 768px) {
+  html { scroll-behavior: auto !important; }
+  body { background-attachment: scroll !important; }
+  /* Keep the visual identity but stop costly perpetual GPU effects on phones. */
+  .background-grid, .ambient, [class*="glow"], .glow,
+  .code-float, .float-card, .floating-code {
+    animation: none !important;
+  }
+  body::before, body::after {
+    animation: none !important;
+    filter: blur(34px) !important;
+    opacity: .12 !important;
+  }
+  .background-grid, .ambient, [class*="glow"], .glow {
+    filter: blur(38px) !important;
+  }
+  .topbar, .navbar, header.topbar, header.navbar, .site-header,
+  .panel, .stat-card, .course-card, .glass, .workspace,
+  .topics, .quiz-panel, .challenge-card, .account-banner,
+  .lesson-panel, .lesson-view, .editor-panel, .terminal-panel {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .stat-card:hover, .course-card:hover, .quick-links>a:hover,
+  .btn:hover, nav a:hover {
+    transform: none !important;
+  }
+  .nai-panel, .nai-launcher { -webkit-tap-highlight-color: transparent; }
+  img, video, canvas, iframe { max-width: 100%; }
+  pre, code { overflow-wrap: anywhere; }
+}
+@media (max-width: 560px) {
+  .hero, .welcome, .heading { animation: none !important; }
+  .hero h1, h1 { letter-spacing: -1.5px; }
+  .hero { padding-top: 44px !important; }
+  .shell, main { max-width: 100%; }
+  .topbar, .navbar, header.topbar, header.navbar {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

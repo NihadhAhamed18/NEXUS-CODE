@@ -8,3 +8,37 @@
 @keyframes naiPop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}@keyframes naiPulse{to{opacity:.25;transform:translateY(-3px)}}
 @media(max-width:600px){.nai-launcher{right:14px;bottom:16px;padding:12px 14px}.nai-panel{right:8px;bottom:73px;width:calc(100vw - 16px);height:min(72dvh,620px);border-radius:21px}.nai-header{padding:13px}.nai-messages{padding:12px 10px}.nai-bubble{font-size:11.5px}.nai-footer{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.nai-panel,.nai-launcher{transition:none}.nai-message{animation:none}.nai-typing i{animation:none}}
+
+/* NEXUS AI mobile stability and performance patch */
+.nai-panel { -webkit-backdrop-filter: none; }
+.nai-messages { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+@media (max-width: 600px) {
+  .nai-launcher {
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: none !important;
+    box-shadow: 0 7px 20px rgba(0,0,0,.32);
+  }
+  .nai-panel {
+    position: fixed;
+    right: 8px;
+    left: 8px;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    height: min(620px, calc(100svh - 92px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+    max-height: calc(100vh - 92px);
+    border-radius: 18px;
+    transform: translateY(8px);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+  }
+  .nai-panel.open { transform: translateY(0); }
+  .nai-messages { scroll-behavior: auto; }
+  .nai-message { animation: none; }
+  .nai-header { flex: 0 0 auto; }
+  .nai-composer { flex: 0 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nai-panel, .nai-launcher { transition: none !important; }
+}
