@@ -509,15 +509,8 @@ function clearTerminal() {
 function initEditor() {
 
     if (typeof require === "undefined") {
-        // Load the large editor bundle after the initial page paint so mobile
-        // browsers can render the interface first.
-        const loader = document.createElement("script");
-        loader.src = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js";
-        loader.onload = initEditor;
-        loader.onerror = function () {
-            $("editor").textContent = "Unable to load Monaco Editor. Check your connection and refresh.";
-        };
-        document.head.appendChild(loader);
+        $("editor").textContent =
+            "Unable to load Monaco Editor. Please refresh.";
         return;
     }
 
@@ -712,13 +705,6 @@ function initEditor() {
 }
 
 
-// START APPLICATION — defer Monaco startup until the first screen is painted.
-function startEditorWhenIdle() {
-    if ("requestIdleCallback" in window) {
-        requestIdleCallback(initEditor, { timeout: 2200 });
-    } else {
-        setTimeout(initEditor, 450);
-    }
-}
-if (document.readyState === "complete") startEditorWhenIdle();
-else window.addEventListener("load", startEditorWhenIdle, { once: true });
+// START APPLICATION
+
+initEditor();

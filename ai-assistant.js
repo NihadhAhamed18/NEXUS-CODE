@@ -64,26 +64,10 @@
     else addText(bubble, text);
     article.append(bubble); messagesEl.append(article); messagesEl.scrollTop = messagesEl.scrollHeight; return { article, bubble };
   }
-  const isMobileViewport = () => window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
-  function focusComposer() {
-    // Do not summon the mobile keyboard merely because the assistant opened.
-    if (!isMobileViewport()) input.focus({ preventScroll: true });
-  }
-  function toggle(open) {
-    const state = typeof open === 'boolean' ? open : !panel.classList.contains('open');
-    panel.classList.toggle('open', state);
-    panel.setAttribute('aria-hidden', String(!state));
-    launcher.setAttribute('aria-expanded', String(state));
-    launcher.classList.toggle('active', state);
-    if (state) {
-      // Let the panel finish its entrance before adjusting its own message list.
-      requestAnimationFrame(() => { messagesEl.scrollTop = messagesEl.scrollHeight; });
-      if (!isMobileViewport()) setTimeout(focusComposer, 180);
-    }
-  }
+  function toggle(open) { const state = typeof open === 'boolean' ? open : !panel.classList.contains('open'); panel.classList.toggle('open', state); panel.setAttribute('aria-hidden', String(!state)); launcher.setAttribute('aria-expanded', String(state)); launcher.classList.toggle('active', state); }
   launcher.addEventListener('click', () => toggle()); $('naiClose').addEventListener('click', () => toggle(false));
   $('naiClear').addEventListener('click', () => { history = []; messagesEl.innerHTML = ''; addMessage('assistant', "New chat started! What would you like to learn or build today?"); });
-  $('naiSuggestions').addEventListener('click', e => { const b = e.target.closest('[data-prompt]'); if (b) { input.value = b.dataset.prompt; if (!isMobileViewport()) input.focus(); $('naiSuggestions').style.display = 'none'; } });
+  $('naiSuggestions').addEventListener('click', e => { const b = e.target.closest('[data-prompt]'); if (b) { input.value = b.dataset.prompt; input.focus(); $('naiSuggestions').style.display = 'none'; } });
   input.addEventListener('input', () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 110) + 'px'; });
   input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('naiForm').requestSubmit(); } });
 
@@ -117,16 +101,7 @@
       pending.article.remove(); addMessage('assistant', data.reply); history.push({ role: 'assistant', content: data.reply });
     } catch (err) {
       pending.article.remove(); addMessage('assistant', `**I couldn't complete that request.**\n${err.message || 'Please try again.'}\n\nIf you have not signed in yet, open the Academy home page and use **Student login**.`);
-     } finally {
-      busy = false;
-      send.disabled = false;
-      input.disabled = false;
-      input.value = '';
-      input.style.height = 'auto';
-      // Keep the keyboard only on desktop; on phones this caused viewport jumps.
-      if (!isMobileViewport()) input.focus({ preventScroll: true });
-      requestAnimationFrame(() => { messagesEl.scrollTop = messagesEl.scrollHeight; });
-    }
+    } finally { busy = false; send.disabled = false; input.disabled = false; input.value = ''; input.style.height = 'auto'; messagesEl.scrollTop = messagesEl.scrollHeight; }
   }
   $('naiForm').addEventListener('submit', e => { e.preventDefault(); const q = input.value.trim(); if (q) ask(q); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('open')) toggle(false); });
