@@ -85,9 +85,16 @@ let progress = {}, selectedOption = null, answerChecked = false, signupMode = fa
 if (validConfig() && window.supabase?.createClient) {
   supabase = window.supabase.createClient(window.NEXUS_SUPABASE_URL, window.NEXUS_SUPABASE_ANON_KEY);
 }
-const localKey = "nexusAcademyStage4Progress";
-function loadLocal(){try{progress=JSON.parse(localStorage.getItem(localKey)||"{}")}catch{progress={}}}
-function saveLocal(){localStorage.setItem(localKey,JSON.stringify(progress))}
+// Keep offline progress separate for every signed-in account.
+function localProgressKey(){return "nexusAcademyStage4Progress:"+(user?.id || "guest")}
+function loadLocal(){
+ try { progress = JSON.parse(localStorage.getItem(localProgressKey()) || "{}") || {}; }
+ catch { progress = {}; }
+}
+function saveLocal(){
+ try { localStorage.setItem(localProgressKey(), JSON.stringify(progress)); }
+ catch (error) { console.warn("Could not save local lesson progress:", error); }
+}
 function toast(message){const el=$("toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2600)}
 function courseProgress(course){const done=course.lessons.filter(l=>progress[course.id+"_"+course.lessons.indexOf(l)]?.completed).length;return Math.round(done/course.lessons.length*100)}
 function renderLanguages(){
@@ -153,9 +160,20 @@ async function completeLesson(){
 }
 async function loadCloudProgress(){
  if(!user||!supabase)return;
- const {data,error}=await supabase.from("nexus_lesson_progress").select("language_id,lesson_index,completed,quiz_score,xp,updated_at").eq("user_id",user.id);
+ const loadingUserId = user.id;
+ const {data,error}=await supabase.from("nexus_lesson_progress")
+  .select("language_id,lesson_index,completed,quiz_score,xp,updated_at")
+  .eq("user_id",loadingUserId);
  if(error){toast("Could not load cloud progress: "+error.message);return}
- for(const r of data||[]){const key=r.language_id+"_"+r.lesson_index;progress[key]={completed:r.completed,quiz_score:r.quiz_score,xp:r.xp,updated_at:r.updated_at}}
+ // Ignore a delayed response if the user changed accounts while it was loading.
+ if(!user || user.id !== loadingUserId)return;
+ // Cloud data is authoritative for this account. Do not merge another account's
+ // or the guest device's progress into the signed-in user's progress.
+ progress = {};
+ for(const r of data||[]){
+  const key=r.language_id+"_"+r.lesson_index;
+  progress[key]={completed:r.completed,quiz_score:r.quiz_score,xp:r.xp,updated_at:r.updated_at};
+ }
  saveLocal();renderCourse();
 }
 function updateAuthUI(){
@@ -179,7 +197,15 @@ async function authSubmit(e){
  if(signupMode&&!result.data.session){$("auth-feedback").style.color="var(--green)";$("auth-feedback").textContent="Account created. Check your email to confirm, then sign in.";return}
  user=result.data.user||result.data.session?.user;$("auth-modal").classList.add("hidden");updateAuthUI();await loadCloudProgress();toast(signupMode?"Account created successfully!":"Welcome back!");
 }
-async function logout(){if(supabase)await supabase.auth.signOut();user=null;loadLocal();updateAuthUI();renderCourse();toast("You have signed out.")}
+async function logout(){
+ if(supabase)await supabase.auth.signOut();
+ user=null;
+ progress={};
+ loadLocal();
+ updateAuthUI();
+ renderCourse();
+ toast("You have signed out.");
+}
 async function init(){
  loadLocal();
  if (requestedCourseId) {
@@ -198,7 +224,17 @@ async function init(){
  if(!supabase){$("sync-title").textContent="Supabase setup required for cloud sync";$("sync-message").textContent="You can explore and complete lessons locally now. Follow the included setup guide to enable student accounts and cloud progress."}
  else{
    const {data}=await supabase.auth.getSession();user=data.session?.user||null;updateAuthUI();if(user)await loadCloudProgress();
-   supabase.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;updateAuthUI();if(user)setTimeout(loadCloudProgress,0)});
+   supabase.auth.onAuthStateChange((_event,session)=>{
+      const nextUser=session?.user||null;
+      const changedAccount=(user?.id||null)!==(nextUser?.id||null);
+      user=nextUser;
+      if(changedAccount){
+        progress={};
+        if(user){setTimeout(()=>loadCloudProgress(),0);}
+        else{loadLocal();renderCourse();}
+      }
+      updateAuthUI();
+    });
  }
 }
 document.addEventListener("DOMContentLoaded",init);
