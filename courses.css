@@ -425,3 +425,117 @@ body.light .video-resource-card { background:linear-gradient(145deg,#fff,#edf5ff
 body.light .video-card-content h3,body.light .video-card-content h4 { color:#17243d; }
 @media(max-width:900px){.video-resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.video-library-head{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.video-library{padding:20px 15px;margin-top:45px}.video-resource-grid{grid-template-columns:1fr}.video-filter-row{align-items:flex-start;flex-direction:column;width:100%}.video-filter-row select{width:100%}}
+
+
+/* ==========================================================
+   NEXUS COURSES — MOBILE STABILITY PATCH
+   Scope: courses.html only. Removes looping visual effects
+   and expensive compositing that can look like page zooming
+   on mobile browsers. Desktop styling remains unchanged.
+   ========================================================== */
+@media screen and (max-width: 760px) {
+  html {
+    scroll-behavior: auto !important;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: clip;
+    background-attachment: scroll !important;
+  }
+
+  /* The Courses page had two infinite cinematic sweeps:
+     the global theme scan and the page-specific hero sweep. */
+  body:not(.light)::after,
+  .hero::after {
+    content: none !important;
+    display: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Remove the oversized fixed blurred orbs on mobile. */
+  .ambient,
+  .ambient-a,
+  .ambient-b {
+    display: none !important;
+    filter: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* No entrance animation that shifts the page while it settles. */
+  .hero,
+  .lesson-view,
+  .auth-modal {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Avoid animated hover transforms being triggered by touch. */
+  .btn:hover,
+  .lesson-row:hover,
+  .language-btn:hover,
+  .course-card:hover,
+  .challenge-card:hover,
+  .stat-card:hover,
+  .badge-card:hover,
+  .primary-btn:hover,
+  .btn-primary:hover,
+  .btn-outline:hover {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Reduce mobile GPU/compositor repainting on large surfaces. */
+  .topbar,
+  .course-sidebar,
+  .lesson-panel,
+  .lesson-view,
+  .account-banner,
+  .auth-modal,
+  .modal-backdrop {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Keep all course content within the device width. */
+  .shell,
+  .learning-layout,
+  .course-sidebar,
+  .lesson-panel,
+  .lesson-view,
+  .lesson-content,
+  .quiz-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .learning-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .course-sidebar {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+/* Also honour reduced-motion settings on every screen size. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .hero,
+  .hero::after,
+  body::after,
+  .lesson-view,
+  .auth-modal,
+  .ambient {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
