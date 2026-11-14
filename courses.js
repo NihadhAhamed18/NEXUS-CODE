@@ -101,10 +101,23 @@ function renderCourse(){
  document.querySelectorAll("[data-lesson]").forEach(b=>b.addEventListener("click",()=>openLesson(Number(b.dataset.lesson))));
  renderLanguages();
 }
-function selectCourse(id){currentCourse=COURSE_DATA.find(c=>c.id===id)||COURSE_DATA[0];$("lesson-view").classList.add("hidden");$("course-area").classList.remove("hidden");renderCourse()}
+function preservePagePosition(update){
+ const savedY = window.scrollY;
+ update();
+ requestAnimationFrame(() => {
+  const root = document.documentElement;
+  const previousBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo(0, savedY);
+  requestAnimationFrame(() => { root.style.scrollBehavior = previousBehavior; });
+ });
+}
+function selectCourse(id){preservePagePosition(()=>{currentCourse=COURSE_DATA.find(c=>c.id===id)||COURSE_DATA[0];$("lesson-view").classList.add("hidden");$("course-area").classList.remove("hidden");renderCourse()})}
 function openLesson(i){
- currentLesson=i;selectedOption=null;answerChecked=false;const l=currentCourse.lessons[i];
- $("course-area").classList.add("hidden");$("lesson-view").classList.remove("hidden");
+ preservePagePosition(()=>{
+  currentLesson=i;selectedOption=null;answerChecked=false;
+  const l=currentCourse.lessons[i];
+  $("course-area").classList.add("hidden");$("lesson-view").classList.remove("hidden");
  $("lesson-label").textContent="LESSON "+String(i+1).padStart(2,"0")+" / "+currentCourse.name.toUpperCase();
  $("lesson-title").textContent=l[0];$("lesson-subtitle").textContent=l[1];
  $("lesson-content").innerHTML=`<p>${l[2]}</p><h3>Example</h3><div class="code-sample"><pre></pre></div><p>Read through the example, then try changing a value or message. When you are ready, answer the quick question below.</p>`;
@@ -116,7 +129,7 @@ function openLesson(i){
  $("previous-lesson").disabled = i === 0;
  $("next-lesson").disabled = i === currentCourse.lessons.length - 1;
  $("next-lesson").textContent = i === currentCourse.lessons.length - 1 ? "End of course" : "Next lesson →";
- 
+ });
 }
 function checkAnswer(){
  if(selectedOption===null){$("quiz-feedback").textContent="Please choose an answer first.";return}
@@ -181,7 +194,7 @@ async function init(){
  $("check-answer").addEventListener("click",checkAnswer);$("complete-lesson").addEventListener("click",completeLesson);
  $("previous-lesson").addEventListener("click",()=>{if(currentLesson>0)openLesson(currentLesson-1)});
  $("next-lesson").addEventListener("click",()=>{if(currentLesson<currentCourse.lessons.length-1)openLesson(currentLesson+1)});
- $("back-to-course").addEventListener("click",()=>$("lesson-view").classList.add("hidden")||$("course-area").classList.remove("hidden"));
+ $("back-to-course").addEventListener("click",()=>preservePagePosition(()=>{$("lesson-view").classList.add("hidden");$("course-area").classList.remove("hidden")}));
  if(!supabase){$("sync-title").textContent="Supabase setup required for cloud sync";$("sync-message").textContent="You can explore and complete lessons locally now. Follow the included setup guide to enable student accounts and cloud progress."}
  else{
    const {data}=await supabase.auth.getSession();user=data.session?.user||null;updateAuthUI();if(user)await loadCloudProgress();
