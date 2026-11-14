@@ -1,0 +1,103 @@
+/* NEXUS ACADEMY / NEXUS CODE — mobile horizontal movement fix
+   Load AFTER the page's normal stylesheets. */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip !important;
+  overscroll-behavior-x: none;
+}
+
+/* Prevent wide content and animated background glows from widening the page. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+iframe,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+/* Keep common flex/grid children inside the mobile viewport. */
+.container,
+main,
+section,
+header,
+footer,
+.navbar,
+.topbar,
+.editor-toolbar,
+.editor-panel,
+.terminal-panel,
+.course-card,
+.lesson-card,
+.video-card,
+.dashboard-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Decorative glows intentionally extend beyond the screen; clip them. */
+.ambient,
+body::before,
+body::after,
+.background-grid,
+.grid-bg,
+.glow {
+  pointer-events: none;
+}
+
+/* Keep the NEXUS AI launcher and panel inside the viewport. */
+#nexusAI {
+  max-width: 100vw;
+}
+
+.nai-launcher {
+  right: max(12px, env(safe-area-inset-right));
+  max-width: calc(100vw - 24px);
+}
+
+.nai-panel {
+  right: max(8px, env(safe-area-inset-right));
+  width: min(410px, calc(100vw - 16px));
+  max-width: calc(100vw - 16px);
+}
+
+/* Mobile browsers must scroll vertically, not pan the whole page sideways. */
+@media (max-width: 760px) {
+  html,
+  body {
+    position: relative;
+    overflow-x: clip !important;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .nai-panel {
+    left: auto;
+    right: max(8px, env(safe-area-inset-right));
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+  }
+
+  .nai-messages,
+  .terminal-body,
+  #output {
+    min-width: 0;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+  }
+
+  pre,
+  code,
+  .nai-code,
+  .monaco-editor,
+  .monaco-editor .overflow-guard {
+    max-width: 100%;
+  }
+}
