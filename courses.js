@@ -198,13 +198,21 @@ async function authSubmit(e){
  user=result.data.user||result.data.session?.user;$("auth-modal").classList.add("hidden");updateAuthUI();await loadCloudProgress();toast(signupMode?"Account created successfully!":"Welcome back!");
 }
 async function logout(){
- if(supabase)await supabase.auth.signOut();
+ if(supabase) {
+  const { error } = await supabase.auth.signOut();
+  if(error) {
+   toast("Could not sign out: " + error.message);
+   return;
+  }
+ }
  user=null;
+ // Clear the visible progress immediately after sign-out.
+ // The signed-in account's cloud progress remains saved and will return
+ // when that same account signs in again.
  progress={};
- loadLocal();
  updateAuthUI();
  renderCourse();
- toast("You have signed out.");
+ toast("Signed out. Progress is cleared from this view.");
 }
 async function init(){
  loadLocal();
@@ -231,7 +239,7 @@ async function init(){
       if(changedAccount){
         progress={};
         if(user){setTimeout(()=>loadCloudProgress(),0);}
-        else{loadLocal();renderCourse();}
+        else{renderCourse();}
       }
       updateAuthUI();
     });
