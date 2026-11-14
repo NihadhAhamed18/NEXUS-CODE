@@ -1,0 +1,49 @@
+/*
+ * NEXUS CODE — Mobile output scroll stability
+ * Load this stylesheet AFTER style.css.
+ */
+
+/* Stop browser scroll anchoring from moving the document
+   when the terminal output changes during execution. */
+html,
+body {
+  overflow-anchor: none;
+}
+
+/* Keep terminal/editor layout changes from shifting the page. */
+.editor-panel,
+.terminal-panel,
+.terminal-body,
+.editor-footer,
+.terminal-footer,
+.output-heading,
+#output {
+  overflow-anchor: none;
+}
+
+/* The output should scroll inside its own area, not move the page. */
+#output {
+  display: block;
+  max-height: 260px;
+  min-height: 160px;
+  overflow-x: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+}
+
+/* Avoid smooth-scroll side effects during mobile layout changes. */
+@media (max-width: 760px) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .terminal-panel {
+    scroll-margin-top: 12px;
+  }
+
+  .terminal-body {
+    min-height: 0;
+  }
+}
