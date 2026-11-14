@@ -173,3 +173,15 @@ body.light .certificate-panel,body.light .badge-card,body.light .resource-grid>a
   .account-area, .account-menu { max-width:43vw; }
   .language-list { grid-template-columns:1fr!important; }
 }
+
+
+/* Prevent the full-page cinematic scan from repeatedly moving */
+@media screen and (max-width: 760px) {
+  body:not(.light)::after {
+    display: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
