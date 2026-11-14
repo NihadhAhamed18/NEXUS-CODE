@@ -116,7 +116,7 @@ function openLesson(i){
  $("previous-lesson").disabled = i === 0;
  $("next-lesson").disabled = i === currentCourse.lessons.length - 1;
  $("next-lesson").textContent = i === currentCourse.lessons.length - 1 ? "End of course" : "Next lesson →";
- window.scrollTo({top:0,behavior:"smooth"});
+ 
 }
 function checkAnswer(){
  if(selectedOption===null){$("quiz-feedback").textContent="Please choose an answer first.";return}
