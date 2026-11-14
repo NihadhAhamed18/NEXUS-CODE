@@ -1,0 +1,119 @@
+/* NEXUS ACADEMY — mobile horizontal overflow fix
+   Load this AFTER academy.css, nexus-ui.css and nexus-theme.css.
+   Keeps intentional horizontal tab/nav scrolling, but prevents page-level sideways movement. */
+
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip !important;
+  overscroll-behavior-x: none;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip !important;
+  position: relative;
+  overscroll-behavior-x: none;
+}
+
+/* Prevent grid/flex children and long content from forcing the page wider. */
+body > *,
+main,
+header,
+footer,
+section,
+article,
+.container,
+.navbar,
+.hero,
+.stats,
+.course-grid,
+.resource-grid,
+.learning-layout,
+.lesson-content,
+.lesson-sidebar,
+.lesson-heading,
+.lesson-navigation {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.container {
+  width: 100%;
+}
+
+img,
+video,
+canvas,
+svg,
+iframe,
+pre,
+table {
+  max-width: 100%;
+}
+
+/* Long code, URLs and lesson text must wrap instead of widening the viewport. */
+.lesson-content,
+#lessonBody,
+.lesson-example,
+.lesson-example pre,
+.lesson-example code,
+.course-card,
+.resource-grid > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.lesson-example pre {
+  white-space: pre-wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keep decorative glows and animated backgrounds clipped to the screen. */
+.background-grid,
+.glow,
+.nexus-intro,
+.intro-stars,
+.intro-scanline,
+.intro-door,
+body::before,
+body::after {
+  max-width: 100vw;
+}
+
+@media (max-width: 720px) {
+  .navbar,
+  .navbar > *,
+  nav,
+  .brand {
+    min-width: 0;
+  }
+
+  .navbar {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero h1,
+  .hero p,
+  .section-heading,
+  .lesson-heading h2,
+  #courseTitle,
+  #lessonTitle {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  /* These controls may scroll internally; they must not move the whole page. */
+  .navbar nav,
+  .language-tabs,
+  .course-tabs,
+  .filter-tabs,
+  .tab-list {
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+  }
+}
