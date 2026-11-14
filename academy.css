@@ -1757,3 +1757,79 @@ body.light .secondary-btn, body.light .btn-outline, body.light .outline-btn,
 body.light .secondary, body.light .theme-btn {
   background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(230,240,255,.92)) !important;
 }
+
+
+/* NEXUS ACADEMY — MOBILE VISUAL STABILITY */
+@media screen and (max-width: 760px) {
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    zoom: 1 !important;
+    transform: none !important;
+  }
+
+  /* Stop animated background scaling */
+  .glow,
+  .glow-one,
+  .glow-two,
+  .background-grid {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Stop hero cinematic movement */
+  .hero::after {
+    animation: none !important;
+    transform: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Disable scaling effects on cards */
+  .course-card,
+  .challenge-card,
+  .stat-card,
+  .badge-card,
+  .panel {
+    animation: none !important;
+    transition: border-color .2s ease,
+                box-shadow .2s ease !important;
+  }
+
+  .course-card:hover,
+  .challenge-card:hover,
+  .stat-card:hover,
+  .badge-card:hover,
+  .panel:hover {
+    transform: none !important;
+  }
+
+  /* Keep page elements within the viewport */
+  *,
+  *::before,
+  *::after {
+    max-width: 100%;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
