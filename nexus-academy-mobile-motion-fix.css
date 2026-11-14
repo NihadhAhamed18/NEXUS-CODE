@@ -1,0 +1,77 @@
+
+/* NEXUS ACADEMY — mobile zoom / pulsing stability patch
+   Load after academy.css, nexus-ui.css and nexus-theme.css. */
+@media (max-width: 760px) {
+  html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    transform: none !important;
+    zoom: 1 !important;
+  }
+
+  /* These infinite scale animations can look like the whole page
+     is repeatedly zooming on small mobile viewports. */
+  body::before,
+  body::after,
+  .glow,
+  .logo,
+  .hero-orb,
+  .orb-ring,
+  .hero::after {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Keep the welcome overlay from introducing a second zoom effect. */
+  .nexus-intro .intro-emblem::before,
+  .nexus-intro .intro-center,
+  .nexus-intro .intro-door,
+  .nexus-intro .intro-scanline {
+    animation: none !important;
+  }
+
+  .nexus-intro .intro-center {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* Disable hover/press scale effects on touch screens. */
+  .course-card:hover,
+  .challenge-card:hover,
+  .stat-card:hover,
+  .badge-card:hover,
+  .primary-btn:hover,
+  .secondary-btn:hover,
+  .theme-btn:hover {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Prevent browser text auto-resizing from changing layout width. */
+  input, button, select, textarea {
+    font-size: max(16px, 1em);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexus-intro *,
+  body::before,
+  body::after,
+  .glow,
+  .logo,
+  .hero-orb,
+  .orb-ring {
+    animation: none !important;
+    transition: none !important;
+  }
+}
