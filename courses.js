@@ -79,3 +79,112 @@ function updateLessonNavigation(){
 }
 function courseProgress(course){const done=course.lessons.filter(l=>progress[course.id+"_"+course.lessons.indexOf(l)]?.completed).length;return Math.round(done/course.lessons.length*100)}
 function renderLanguages(){
+
+ $("language-list").innerHTML=COURSE_DATA.map(c=>`<button class="language-btn ${c.id===currentCourse.id?"selected":""}" data-course="${c.id}"><span class="lang-icon">${c.icon}</span><span class="lang-meta"><b>${c.name}</b><small>${c.level} · ${c.lessons.length} lessons</small></span><span class="lang-count">${courseProgress(c)}%</span></button>`).join("");
+ document.querySelectorAll("[data-course]").forEach(b=>b.addEventListener("click",()=>selectCourse(b.dataset.course)));
+}
+function renderCourse(){
+ $("course-title").textContent=currentCourse.name+" Foundations";$("course-description").textContent=currentCourse.description;
+ const pct=courseProgress(currentCourse);$("course-percent").textContent=pct+"%";$("course-progress-bar").style.width=pct+"%";$("course-percent").parentElement.style.setProperty("--progress",pct+"%");
+ $("lesson-list").innerHTML=currentCourse.lessons.map((l,i)=>{const p=progress[currentCourse.id+"_"+i];return `<button class="lesson-row ${p?.completed?"done":""}" data-lesson="${i}"><span class="lesson-number">${p?.completed?"✓":String(i+1).padStart(2,"0")}</span><span class="lesson-info"><b>${l[0]}</b><small>${l[1]}</small></span><span class="lesson-status">${p?.completed?"COMPLETED":"＋ 20 XP"}</span></button>`}).join("");
+ document.querySelectorAll("[data-lesson]").forEach(b=>b.addEventListener("click",()=>openLesson(Number(b.dataset.lesson))));
+ renderLanguages();
+}
+function selectCourse(id){
+ preserveCourseScroll(()=>{
+  currentCourse=COURSE_DATA.find(c=>c.id===id)||COURSE_DATA[0];
+  $("lesson-view").classList.add("hidden");
+  $("course-area").classList.remove("hidden");
+  renderCourse();
+ });
+}
+function openLesson(i){
+ if(i<0||i>=currentCourse.lessons.length)return;
+ preserveCourseScroll(()=>{
+ currentLesson=i;selectedOption=null;answerChecked=false;const l=currentCourse.lessons[i];
+ $("course-area").classList.add("hidden");$("lesson-view").classList.remove("hidden");
+ $("lesson-label").textContent="LESSON "+String(i+1).padStart(2,"0")+" / "+currentCourse.name.toUpperCase();
+ $("lesson-title").textContent=l[0];$("lesson-subtitle").textContent=l[1];
+ $("lesson-content").innerHTML=`<p>${l[2]}</p><h3>Example</h3><div class="code-sample"><pre></pre></div><p>Read through the example, then try changing a value or message. When you are ready, answer the quick question below.</p>`;
+ $("lesson-content").querySelector("pre").textContent=l[3];
+ $("quiz-question").textContent=l[4];$("quiz-options").innerHTML=l[5].map((o,n)=>`<button class="quiz-option" data-option="${n}">${String.fromCharCode(65+n)}. ${o}</button>`).join("");
+ document.querySelectorAll("[data-option]").forEach(b=>b.addEventListener("click",()=>{if(answerChecked)return;selectedOption=Number(b.dataset.option);document.querySelectorAll(".quiz-option").forEach(x=>x.classList.toggle("chosen",Number(x.dataset.option)===selectedOption))}));
+ $("quiz-feedback").textContent="Choose one answer and check it."; $("check-answer").disabled=false;$("complete-lesson").disabled=true;
+ const already=progress[currentCourse.id+"_"+i]?.completed;$("lesson-xp").textContent=already?"✓ Previously completed · 20 XP earned":"+20 XP on completion";
+ updateLessonNavigation();
+ });
+}
+function navigateLesson(direction){
+ if(currentLesson===null)return;
+ const target=currentLesson+direction;
+ if(target<0||target>=currentCourse.lessons.length)return;
+ openLesson(target);
+}
+function checkAnswer(){
+ if(selectedOption===null){$("quiz-feedback").textContent="Please choose an answer first.";return}
+ answerChecked=true;const l=currentCourse.lessons[currentLesson],correct=selectedOption===l[6];
+ document.querySelectorAll("[data-option]").forEach(b=>{const n=Number(b.dataset.option);if(n===l[6])b.classList.add("correct");else if(n===selectedOption)b.classList.add("wrong")});
+ $("quiz-feedback").textContent=correct?"Correct! You can now complete this lesson.":"Not quite. Review the lesson and try again.";
+ $("quiz-feedback").style.color=correct?"var(--green)":"var(--danger)";
+ $("check-answer").disabled=true;$("complete-lesson").disabled=!correct;
+}
+async function completeLesson(){
+ const key=currentCourse.id+"_"+currentLesson,previous=progress[key];
+ if(previous?.completed){toast("This lesson is already completed.");return}
+ const row={completed:true,quiz_score:100,xp:20,updated_at:new Date().toISOString()};
+ progress[key]=row;saveLocal();renderCourse();
+ if(user&&supabase){
+   const {error}=await supabase.from("nexus_lesson_progress").upsert({user_id:user.id,language_id:currentCourse.id,lesson_index:currentLesson,lesson_title:currentCourse.lessons[currentLesson][0],completed:true,quiz_score:100,xp:20,updated_at:row.updated_at},{onConflict:"user_id,language_id,lesson_index"});
+   if(error){toast("Saved on this device. Cloud sync error: "+error.message);return}
+   toast("Lesson completed — 20 XP synced to your account!");
+ } else toast("Lesson completed — 20 XP saved on this device. Sign in to sync.");
+ $("lesson-xp").textContent="✓ Lesson completed · +20 XP";
+}
+async function loadCloudProgress(){
+ if(!user||!supabase)return;
+ const {data,error}=await supabase.from("nexus_lesson_progress").select("language_id,lesson_index,completed,quiz_score,xp,updated_at").eq("user_id",user.id);
+ if(error){toast("Could not load cloud progress: "+error.message);return}
+ for(const r of data||[]){const key=r.language_id+"_"+r.lesson_index;progress[key]={completed:r.completed,quiz_score:r.quiz_score,xp:r.xp,updated_at:r.updated_at}}
+ saveLocal();renderCourse();
+}
+function updateAuthUI(){
+ $("account-status").textContent=user?(user.user_metadata?.display_name||user.email):"Not signed in";
+ $("auth-open").classList.toggle("hidden",!!user);$("logout-btn").classList.toggle("hidden",!user);
+ $("sync-title").textContent=user?"Cloud sync is connected":"Your learning, in one place";
+ $("sync-message").textContent=user?"Signed in as "+user.email+". Completed lessons and quiz results are saved to your Supabase account.":"Sign in to save your lesson progress and quiz scores to your Supabase account. You can explore lessons without signing in.";
+ $("banner-auth").textContent=user?"Account connected":"Sign in / Create account";$("banner-auth").disabled=!!user;
+}
+function openAuth(){if(!supabase){$("auth-feedback").textContent="Add your Supabase URL and public anon/publishable key in supabase-config.js, then refresh.";signupMode=false;updateAuthMode();$("auth-modal").classList.remove("hidden");return} $("auth-feedback").textContent="";$("auth-modal").classList.remove("hidden")}
+function updateAuthMode(){$("auth-title").textContent=signupMode?"Create your account.":"Welcome back.";$("auth-description").textContent=signupMode?"Create a free account to keep your learning progress synced.":"Sign in to sync your learning progress across devices.";$("name-field").classList.toggle("hidden",!signupMode);$("auth-submit").textContent=signupMode?"Create account":"Sign in";$("auth-toggle").textContent=signupMode?"Already have an account? Sign in":"New to NEXUS? Create an account"}
+async function authSubmit(e){
+ e.preventDefault();if(!supabase){$("auth-feedback").textContent="Supabase is not configured yet. Follow the setup guide.";return}
+ const email=$("auth-email").value.trim(),password=$("auth-password").value,displayName=$("auth-name").value.trim();
+ $("auth-submit").disabled=true;$("auth-feedback").textContent="Connecting securely…";
+ let result;
+ if(signupMode)result=await supabase.auth.signUp({email,password,options:{data:{display_name:displayName||email.split("@")[0]}}});
+ else result=await supabase.auth.signInWithPassword({email,password});
+ $("auth-submit").disabled=false;
+ if(result.error){$("auth-feedback").textContent=result.error.message;return}
+ if(signupMode&&!result.data.session){$("auth-feedback").style.color="var(--green)";$("auth-feedback").textContent="Account created. Check your email to confirm, then sign in.";return}
+ user=result.data.user||result.data.session?.user;$("auth-modal").classList.add("hidden");updateAuthUI();await loadCloudProgress();toast(signupMode?"Account created successfully!":"Welcome back!");
+}
+async function logout(){if(supabase)await supabase.auth.signOut();user=null;loadLocal();updateAuthUI();renderCourse();toast("You have signed out.")}
+async function init(){
+ loadLocal();renderCourse();updateAuthUI();
+ $("auth-open").addEventListener("click",openAuth);$("banner-auth").addEventListener("click",openAuth);
+ $("auth-close").addEventListener("click",()=>$("auth-modal").classList.add("hidden"));
+ $("auth-modal").addEventListener("click",e=>{if(e.target===$("auth-modal"))$("auth-modal").classList.add("hidden")});
+ $("auth-toggle").addEventListener("click",()=>{signupMode=!signupMode;$("auth-feedback").textContent="";$("auth-feedback").style.color="var(--danger)";updateAuthMode()});
+ $("auth-form").addEventListener("submit",authSubmit);$("logout-btn").addEventListener("click",logout);
+ $("check-answer").addEventListener("click",checkAnswer);$("complete-lesson").addEventListener("click",completeLesson);
+ $("previous-lesson").addEventListener("click",()=>navigateLesson(-1));
+ $("next-lesson").addEventListener("click",()=>navigateLesson(1));
+ $("back-to-course").addEventListener("click",()=>preserveCourseScroll(()=>{$("lesson-view").classList.add("hidden");$("course-area").classList.remove("hidden");renderCourse();}));
+ if(!supabase){$("sync-title").textContent="Supabase setup required for cloud sync";$("sync-message").textContent="You can explore and complete lessons locally now. Follow the included setup guide to enable student accounts and cloud progress."}
+ else{
+   const {data}=await supabase.auth.getSession();user=data.session?.user||null;updateAuthUI();if(user)await loadCloudProgress();
+   supabase.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;updateAuthUI();if(user)setTimeout(loadCloudProgress,0)});
+ }
+}
+document.addEventListener("DOMContentLoaded",init);
+})();
