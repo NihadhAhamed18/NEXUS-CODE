@@ -20,7 +20,7 @@ function readJSON(key, fallback) {
 data = readJSON(KEY, EMPTY);
 data.solved = Array.isArray(data.solved) ? data.solved : [];
 data.activity = data.activity && typeof data.activity === "object" ? data.activity : {};
-const localCourse = readJSON(COURSE_KEY, {});
+let localCourse = readJSON(COURSE_KEY, {});
 function todayKey(d=new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 }
@@ -155,7 +155,12 @@ async function initCloud() {
     if(sessionError) throw sessionError;
     user=sessionData.session?.user||null;
     if(!user) {
-      setCloud("Sign in to see your synced course progress","Your Practice Lab progress on this device is still shown. Sign in on the Courses page to sync lessons.","NOT SIGNED IN","offline");
+      // Guest dashboard is intentionally blank after sign-out.
+      data = {...EMPTY, solved:[], activity:{}};
+      localCourse = {};
+      courseRows = [];
+      cloudDates = {};
+      setCloud("Sign in to see your learning progress","Your dashboard is reset while signed out. Your account progress remains saved securely for your next login.","NOT SIGNED IN","offline");
       return;
     }
     setCloud("Student account connected",`Signed in as ${user.email}. Loading your completed lessons from Supabase…`,"SYNCING");
@@ -164,6 +169,7 @@ async function initCloud() {
       .eq("user_id",user.id);
     if(error) throw error;
     courseRows=data||[];
+    cloudDates = {};
     for(const row of courseRows) {
       if(row.updated_at) {
         const day=new Date(row.updated_at).toLocaleDateString("en-CA");
@@ -171,6 +177,41 @@ async function initCloud() {
       }
     }
     setCloud("Cloud sync connected",`Signed in as ${user.email}. Course lessons, quiz results and XP are included in this dashboard.`,"CONNECTED");
+    render();
+    db.auth.onAuthStateChange((_event, session) => {
+      const nextUser = session?.user || null;
+      if (nextUser?.id === user?.id) return;
+      user = nextUser;
+      data = {...EMPTY, solved:[], activity:{}};
+      localCourse = {};
+      courseRows = [];
+      cloudDates = {};
+      if (!user) {
+        setCloud("Sign in to see your learning progress","Your dashboard is reset while signed out. Your account progress remains saved securely for your next login.","NOT SIGNED IN","offline");
+        render();
+        return;
+      }
+      setCloud("Student account connected",`Signed in as ${user.email}. Loading your completed lessons from Supabase…`,"SYNCING");
+      db.from("nexus_lesson_progress")
+        .select("language_id,lesson_index,completed,quiz_score,xp,updated_at")
+        .eq("user_id",user.id)
+        .then(({data:rows,error:loadError}) => {
+          if (user?.id !== nextUser.id) return;
+          if (loadError) {
+            setCloud("Could not load cloud progress",loadError.message||"Check your Supabase table permissions.","SYNC ERROR","error");
+            render();
+            return;
+          }
+          courseRows = rows || [];
+          cloudDates = {};
+          for (const row of courseRows) if (row.updated_at) {
+            const day = new Date(row.updated_at).toLocaleDateString("en-CA");
+            cloudDates[day] = (cloudDates[day] || 0) + 1;
+          }
+          setCloud("Cloud sync connected",`Signed in as ${user.email}. Course lessons, quiz results and XP are included in this dashboard.`,"CONNECTED");
+          render();
+        });
+    });
   } catch(err) {
     setCloud("Could not load cloud progress",err?.message||"Check your Supabase settings and table permissions.","SYNC ERROR","error");
   }
