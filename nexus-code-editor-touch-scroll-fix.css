@@ -1,69 +1,57 @@
-/* =========================================================
-   NEXUS CODE — MOBILE MONACO EDITOR TOUCH SCROLL FIX
-   Keep the editor at a bounded height so Monaco can scroll
-   inside its own viewport instead of expanding the page.
-   ========================================================= */
+/* NEXUS CODE — Monaco mobile touch-scroll correction
+   Replace the previous nexus-code-editor-touch-scroll-fix.css with this file. */
 #editor {
-    position: relative;
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
-    height: 520px;
-    overflow: hidden;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 520px;
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 #editor .monaco-editor,
-#editor .monaco-editor .overflow-guard {
-    max-width: 100%;
-    overscroll-behavior: contain;
+#editor .monaco-editor .overflow-guard,
+#editor .monaco-editor .monaco-scrollable-element {
+  max-width: 100%;
+  overscroll-behavior: contain;
+  touch-action: none !important;
 }
 
 @media (max-width: 600px) {
-    .editor-panel {
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-        height: 440px;
-        overflow: hidden;
-    }
+  .editor-panel {
+    display: flex;
+    flex-direction: column;
+    height: 440px;
+    min-height: 0;
+    overflow: hidden;
+  }
 
-    #editor {
-        flex: 1 1 auto;
-        width: 100%;
-        height: 364px;
-        min-height: 0;
-        max-height: 364px;
-        overflow: hidden;
-        touch-action: pan-y;
-        overscroll-behavior: contain;
-    }
+  #editor {
+    flex: 1 1 auto;
+    height: 364px;
+    min-height: 0;
+    max-height: 364px;
+    overflow: hidden;
+    touch-action: none !important;
+    overscroll-behavior: contain;
+  }
 
-    /* Keep Monaco's own scrollable viewport inside the editor. */
-    #editor .monaco-editor,
-    #editor .monaco-editor .overflow-guard,
-    #editor .monaco-editor .monaco-scrollable-element {
-        max-width: 100%;
-        overscroll-behavior: contain;
-    }
+  #editor .monaco-editor,
+  #editor .monaco-editor .overflow-guard,
+  #editor .monaco-editor .monaco-scrollable-element,
+  #editor .monaco-editor .view-lines,
+  #editor .monaco-editor .view-line {
+    touch-action: none !important;
+  }
 
-    #editor .monaco-editor .monaco-scrollable-element {
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .editor-footer {
-        flex: 0 0 30px;
-    }
+  .editor-footer {
+    flex: 0 0 30px;
+  }
 }
 
 @media (max-width: 380px) {
-    .editor-panel {
-        height: 410px;
-    }
-
-    #editor {
-        height: 334px;
-        max-height: 334px;
-    }
+  .editor-panel { height: 410px; }
+  #editor { height: 334px; max-height: 334px; }
 }
