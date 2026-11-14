@@ -9,7 +9,6 @@ const languages = {
         code: `name = input("Enter your name: ")
 print("Welcome to NEXUS CODE", name)`
     },
-
     "54": {
         name: "C++",
         mode: "cpp",
@@ -22,7 +21,6 @@ int main() {
     return 0;
 }`
     },
-
     "50": {
         name: "C",
         mode: "c",
@@ -34,7 +32,6 @@ int main() {
     return 0;
 }`
     },
-
     "62": {
         name: "Java",
         mode: "java",
@@ -45,14 +42,12 @@ int main() {
     }
 }`
     },
-
     "63": {
         name: "JavaScript",
         mode: "javascript",
         file: "main.js",
         code: `console.log("Hello, NEXUS CODE!");`
     },
-
     "51": {
         name: "C#",
         mode: "csharp",
@@ -65,7 +60,6 @@ class Program {
     }
 }`
     },
-
     "68": {
         name: "PHP",
         mode: "php",
@@ -74,14 +68,12 @@ class Program {
 echo "Hello, NEXUS CODE!";
 ?>`
     },
-
     "72": {
         name: "Ruby",
         mode: "ruby",
         file: "main.rb",
         code: `puts "Hello, NEXUS CODE!"`
     },
-
     "60": {
         name: "Go",
         mode: "go",
@@ -94,7 +86,6 @@ func main() {
     fmt.Println("Hello, NEXUS CODE!")
 }`
     },
-
     "73": {
         name: "Rust",
         mode: "rust",
@@ -185,7 +176,6 @@ function changeLanguage(id, reset = true) {
         info.name + " · Ready";
 
     if (editor) {
-
         if (reset) {
             editor.setValue(info.code);
         }
@@ -215,7 +205,6 @@ function delay(ms) {
 // EXECUTION RESULT
 
 function displayResult(result) {
-
     const compileOutput =
         decodeBase64(result.compile_output);
 
@@ -268,7 +257,6 @@ function displayResult(result) {
 // RUN PROGRAM
 
 async function runCode() {
-
     if (!editor || isRunning) return;
 
     const sourceCode = editor.getValue();
@@ -298,33 +286,21 @@ async function runCode() {
     const startTime = performance.now();
 
     try {
-
-        // Submit program
-
         const response = await fetch(
             API + "?base64_encoded=true&wait=false",
             {
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-
                 body: JSON.stringify({
-
                     language_id: Number(currentLanguage),
-
                     source_code: encodeBase64(sourceCode),
-
                     stdin: encodeBase64($("stdin").value),
-
                     cpu_time_limit: 5,
-
                     wall_time_limit: 10,
-
                     memory_limit: 128000
-
                 })
             }
         );
@@ -341,8 +317,6 @@ async function runCode() {
             throw new Error("No execution token received.");
         }
 
-        // Poll Judge0 for completion
-
         showOutput(
             "Program submitted successfully.\nWaiting for execution result...",
             "RUNNING"
@@ -351,7 +325,6 @@ async function runCode() {
         let result = null;
 
         for (let attempt = 0; attempt < 30; attempt++) {
-
             await delay(1000);
 
             const check = await fetch(
@@ -375,10 +348,6 @@ async function runCode() {
 
             const statusId = result.status?.id;
 
-            // 1 = In Queue
-            // 2 = Processing
-            // 3 and above = Finished
-
             if (statusId && statusId >= 3) {
                 break;
             }
@@ -391,7 +360,6 @@ async function runCode() {
 
         if (!result || !result.status ||
             result.status.id < 3) {
-
             throw new Error(
                 "Execution timed out. Please try again."
             );
@@ -408,7 +376,6 @@ async function runCode() {
         );
 
     } catch (error) {
-
         console.error(error);
 
         showOutput(
@@ -423,13 +390,11 @@ async function runCode() {
             "● Execution failed";
 
     } finally {
-
         isRunning = false;
 
         button.disabled = false;
 
         button.innerHTML = "<span>▶</span> RUN CODE";
-
     }
 }
 
@@ -437,7 +402,6 @@ async function runCode() {
 // DOWNLOAD PROGRAM
 
 function downloadCode() {
-
     if (!editor) return;
 
     const info = languages[currentLanguage];
@@ -469,7 +433,6 @@ function downloadCode() {
 // RESET EDITOR
 
 function resetEditor() {
-
     if (!editor) return;
 
     changeLanguage(currentLanguage);
@@ -491,7 +454,6 @@ function resetEditor() {
 // CLEAR TERMINAL
 
 function clearTerminal() {
-
     $("stdin").value = "";
 
     $("execTime").textContent = "TIME: —";
@@ -504,10 +466,97 @@ function clearTerminal() {
 }
 
 
+// MOBILE MONACO TOUCH SCROLL
+
+function enableMobileEditorTouchScroll() {
+    if (!editor) return;
+
+    const editorNode = editor.getDomNode();
+
+    if (!editorNode) return;
+
+    let startX = 0;
+    let startY = 0;
+    let startScrollTop = 0;
+    let startScrollLeft = 0;
+    let gesture = null;
+
+    editorNode.style.touchAction = "none";
+    editorNode.style.overscrollBehavior = "contain";
+
+    editorNode.addEventListener("touchstart", event => {
+        if (event.touches.length !== 1) {
+            gesture = null;
+            return;
+        }
+
+        const touch = event.touches[0];
+
+        startX = touch.clientX;
+        startY = touch.clientY;
+
+        startScrollTop = editor.getScrollTop();
+        startScrollLeft = editor.getScrollLeft();
+
+        gesture = null;
+
+    }, { passive: true, capture: true });
+
+
+    editorNode.addEventListener("touchmove", event => {
+        if (!event.touches || event.touches.length !== 1) return;
+
+        const touch = event.touches[0];
+
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+
+        if (
+            !gesture &&
+            Math.max(Math.abs(deltaX), Math.abs(deltaY)) > 8
+        ) {
+            gesture =
+                Math.abs(deltaY) >= Math.abs(deltaX)
+                    ? "vertical"
+                    : "horizontal";
+        }
+
+        if (!gesture) return;
+
+        if (event.cancelable) {
+            event.preventDefault();
+        }
+
+        if (gesture === "vertical") {
+            editor.setScrollTop(startScrollTop - deltaY);
+        } else {
+            editor.setScrollLeft(startScrollLeft - deltaX);
+        }
+
+    }, { passive: false, capture: true });
+
+
+    const endTouch = () => {
+        gesture = null;
+    };
+
+    editorNode.addEventListener(
+        "touchend",
+        endTouch,
+        { passive: true, capture: true }
+    );
+
+    editorNode.addEventListener(
+        "touchcancel",
+        endTouch,
+        { passive: true, capture: true }
+    );
+}
+
+
 // INITIALIZE MONACO EDITOR
 
 function initEditor() {
-
     if (typeof require === "undefined") {
         $("editor").textContent =
             "Unable to load Monaco Editor. Please refresh.";
@@ -515,9 +564,7 @@ function initEditor() {
     }
 
     window.MonacoEnvironment = {
-
         getWorkerUrl: function() {
-
             const worker = `
                 self.MonacoEnvironment = {
                     baseUrl:
@@ -535,22 +582,18 @@ function initEditor() {
     };
 
     require.config({
-
         paths: {
             vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs"
         }
-
     });
 
     require(
         ["vs/editor/editor.main"],
 
         function() {
-
             editor = monaco.editor.create(
                 $("editor"),
                 {
-
                     value: languages[currentLanguage].code,
 
                     language: "python",
@@ -590,24 +633,25 @@ function initEditor() {
                     wordWrap: "on",
 
                     suggestOnTriggerCharacters: true
-
                 }
             );
+
+            // Enable mobile touch scrolling.
+            enableMobileEditorTouchScroll();
+
 
             // Cursor tracking
 
             editor.onDidChangeCursorPosition(event => {
-
                 $("cursorPosition").textContent =
                     `Ln ${event.position.lineNumber}, Col ${event.position.column}`;
-
             });
+
 
             editor.onDidFocusEditorText(() => {
-
                 $("editorStatus").textContent = "● Editing";
-
             });
+
 
             // Language selection
 
@@ -616,12 +660,14 @@ function initEditor() {
                 event => changeLanguage(event.target.value)
             );
 
+
             // Run code
 
             $("runBtn").addEventListener(
                 "click",
                 runCode
             );
+
 
             // Download
 
@@ -630,12 +676,14 @@ function initEditor() {
                 downloadCode
             );
 
+
             // Reset
 
             $("resetBtn").addEventListener(
                 "click",
                 resetEditor
             );
+
 
             // Clear terminal
 
@@ -644,12 +692,12 @@ function initEditor() {
                 clearTerminal
             );
 
+
             // Dark / Light theme
 
             $("themeBtn").addEventListener(
                 "click",
                 () => {
-
                     const light =
                         document.body.classList.toggle("light");
 
@@ -665,41 +713,33 @@ function initEditor() {
                             ? "Light mode enabled"
                             : "Dark mode enabled"
                     );
-
                 }
             );
+
 
             // Ctrl + Enter to execute
 
             document.addEventListener(
                 "keydown",
                 event => {
-
                     if (
                         (event.ctrlKey || event.metaKey) &&
                         event.key === "Enter"
                     ) {
-
                         event.preventDefault();
-
                         runCode();
-
                     }
-
                 }
             );
 
             $("language").value = currentLanguage;
-
         },
 
         function(error) {
-
             console.error(error);
 
             $("editor").textContent =
                 "Monaco Editor could not load.";
-
         }
     );
 }
